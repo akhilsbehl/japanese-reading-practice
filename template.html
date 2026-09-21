@@ -15,9 +15,9 @@ ruby rt{font-size:.62em;color:var(--mut)}
 body.no-furigana ruby rt{display:none}
 /* inline word units: Japanese on top (furigana above), romaji below, hidden by default */
 #snippet p{font-size:1.25rem;line-height:2.2;margin:.4em 0}
-.w{display:inline-flex;flex-direction:column;align-items:center;margin:.1em .18em .3em;cursor:pointer;vertical-align:bottom;border-radius:8px;padding:0 .1em}
+.w{display:inline-block;vertical-align:top;text-align:center;margin:.05em .22em .35em;white-space:nowrap;cursor:pointer;border-radius:8px;padding:0 .08em}
 .w:hover{background:#f8fafc}
-.w .ro{display:none;font-size:.68rem;line-height:1.4;color:var(--acc);font-family:ui-monospace,Menlo,Consolas,monospace}
+.w .ro{display:none;font-size:.68rem;line-height:1.4;color:var(--acc);font-family:ui-monospace,Menlo,Consolas,monospace;text-align:center}
 body.romaji-on .w .ro{display:block}
 .w.show-ro .ro{display:block}
 .romaji-legend{color:var(--mut);font-size:.8rem}
