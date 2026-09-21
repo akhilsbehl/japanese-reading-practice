@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>赤くなったイチゴ — Tiny Story — Real Japanese Lesson</title>
+<style>
+:root{--ink:#0f172a;--mut:#64748b;--bg:#f1f5f9;--card:#ffffff;--line:#e2e8f0;--acc:#0e7490;--acc-soft:#ecfeff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
+*{box-sizing:border-box}
+body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:none;margin:0;padding:24px clamp(20px,5vw,80px) 64px;line-height:2;color:var(--ink);background:var(--bg)}
+h1,.source-line{text-align:center}
+h1{font-size:1.9rem;line-height:1.5;margin:.4em 0}
+h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem;color:var(--ink)}
+h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--acc);display:inline-block}
+ruby rt{font-size:.62em;color:var(--mut)}
+body.no-furigana ruby rt{display:none}
+#snippet p{font-size:1.25rem;line-height:2.2;margin:.4em 0}
+.w{display:inline-block;vertical-align:top;text-align:center;margin:.05em .22em .35em;white-space:nowrap;cursor:pointer;border-radius:8px;padding:0 .08em}
+.w:hover{background:#f8fafc}
+.w .ro{display:none;font-size:.68rem;line-height:1.4;color:var(--acc);font-family:ui-monospace,Menlo,Consolas,monospace;text-align:center}
+body.romaji-on .w .ro{display:block}
+.w.show-ro .ro{display:block}
+.romaji-legend{color:var(--mut);font-size:.8rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:0 1px 2px rgba(30,20,0,.05)}
+.small{color:var(--mut);font-size:.85em}
+button{padding:.4rem .9rem;border-radius:999px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:.9rem;color:var(--ink)}
+button:hover{border-color:var(--acc);color:var(--acc)}
+button.primary{background:#0f172a;border-color:#0f172a;color:#fff;font-weight:600}
+button.primary:hover{filter:brightness(1.05);color:#fff}
+#snippet p{font-size:1.25rem;line-height:2.4;margin:.4em 0}
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;margin:14px 0;box-shadow:0 2px 8px rgba(60,40,0,.06)}
+.q-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem}
+.q-num{background:#0f172a;color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
+.q-pick{color:var(--mut);font-size:.8rem;border:1px dashed #c9c0aa;border-radius:999px;padding:.05rem .6rem}
+.q-text{font-size:1.15rem;margin:.3em 0}
+.opt{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;margin:.45rem 0;background:#fff;border:1.5px solid #ddd6c4;border-radius:12px;padding:.55rem .7rem;font-size:1.05rem;line-height:2}
+.opt::before{content:"";flex:0 0 auto;width:18px;height:18px;border-radius:50%;border:2px solid #b8ad90;margin-top:.55em}
+.opt:hover{border-color:var(--ind);background:#fbf9ff}
+.opt.picked-wrong{border-color:#f87171;background:var(--red-bg)}
+.opt.picked-wrong::before{border-color:#ef4444;background:#ef4444;box-shadow:inset 0 0 0 3px #fff}
+.opt.solved{border-color:#86efac;background:var(--green-bg)}
+.opt.solved::before{border-color:#22c55e;background:#22c55e;box-shadow:inset 0 0 0 3px #fff}
+.opt:disabled{opacity:1;cursor:default}
+.feedback{display:none;border-radius:12px;padding:.6rem .8rem;margin-top:.6rem;font-size:.95rem;line-height:1.8}
+.feedback.show{display:block}
+.feedback.hint{background:var(--amber-bg);border:1px solid #fcd34d;color:var(--amber)}
+.feedback.praise{background:var(--green-bg);border:1px solid #86efac;color:var(--green)}
+.mini{font-size:.75em;margin-left:.4rem;padding:.2rem .6rem}
+.r-text,.e-text{display:none;background:#f8fafc;border:1px dashed #cbd5e1;padding:.3rem .6rem;border-radius:8px;margin:.25rem 0;font-size:.9rem;line-height:1.9}
+.r-text.show,.e-text.show{display:block}
+#saved{color:var(--green);font-weight:bold}
+textarea{width:100%;padding:.6rem;font-size:1rem;border-radius:12px;border:1px solid var(--line)}
+details.card summary{cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<h1><ruby>赤<rt>(あか)</rt></ruby>くなったイチゴ</h1>
+<p class="small source-line">Source: sources/tinystories_jap.dedup.jsonl:1417 (tiny, whole story) · 2026-09-21 · kind: tiny</p>
+<!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby>Kanji<rt>(reading)</rt></ruby>. TRIVIA/DIALECT/feedback = English only. Wrong pick NEVER reveals correct; retry allowed. -->
+
+<h2>Read — tap a word for its romaji</h2>
+<div class="card">
+<button id="furiganaBtn">FURIGANA: ON</button>
+<button id="romajiBtn">ROMAJI: OFF</button>
+<span class="romaji-legend">romaji hidden by default</span>
+<div id="snippet"><p><span class="w" data-jp="ある<ruby>日<rt>(ひ)</rt></ruby>" data-ro="aru hi">ある<ruby>日<rt>(ひ)</rt></ruby><span class="ro">aru hi</span></span>、 <span class="w" data-jp="イチゴが" data-ro="ichigo ga">イチゴが<span class="ro">ichigo ga</span></span> <span class="w" data-jp="<ruby>立<rt>(た)</rt></ruby>ちました" data-ro="tachimashita"><ruby>立<rt>(た)</rt></ruby>ちました<span class="ro">tachimashita</span></span>。 <span class="w" data-jp="「<ruby>私<rt>(わたし)</rt></ruby>はイチゴだよ」" data-ro="watashi wa ichigo da yo">「<ruby>私<rt>(わたし)</rt></ruby>はイチゴだよ」<span class="ro">watashi wa ichigo da yo</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>言<rt>(い)</rt></ruby>いました" data-ro="iimashita"><ruby>言<rt>(い)</rt></ruby>いました<span class="ro">iimashita</span></span>。</p>
+<p><span class="w" data-jp="イチゴは" data-ro="ichigo wa">イチゴは<span class="ro">ichigo wa</span></span> <span class="w" data-jp="<ruby>白<rt>(しろ)</rt></ruby>い<ruby>花<rt>(はな)</rt></ruby>の<ruby>中<rt>(なか)</rt></ruby>で" data-ro="shiroi hana no naka de"><ruby>白<rt>(しろ)</rt></ruby>い<ruby>花<rt>(はな)</rt></ruby>の<ruby>中<rt>(なか)</rt></ruby>で<span class="ro">shiroi hana no naka de</span></span> <span class="w" data-jp="<ruby>立<rt>(た)</rt></ruby>っています" data-ro="tatteimasu"><ruby>立<rt>(た)</rt></ruby>っています<span class="ro">tatteimasu</span></span>。 <span class="w" data-jp="<ruby>周<rt>(まわ)</rt></ruby>りには" data-ro="mawari ni wa"><ruby>周<rt>(まわ)</rt></ruby>りには<span class="ro">mawari ni wa</span></span>、 <span class="w" data-jp="たくさんの" data-ro="takusan no">たくさんの<span class="ro">takusan no</span></span> <span class="w" data-jp="<ruby>緑<rt>(みどり)</rt></ruby>の<ruby>葉<rt>(は)</rt></ruby>っぱが" data-ro="midori no happa ga"><ruby>緑<rt>(みどり)</rt></ruby>の<ruby>葉<rt>(は)</rt></ruby>っぱが<span class="ro">midori no happa ga</span></span> <span class="w" data-jp="ありました" data-ro="arimashita">ありました<span class="ro">arimashita</span></span>。</p>
+<p><span class="w" data-jp="イチゴは" data-ro="ichigo wa">イチゴは<span class="ro">ichigo wa</span></span> <span class="w" data-jp="<ruby>太陽<rt>(たいよう)</rt></ruby>の<ruby>光<rt>(ひかり)</rt></ruby>を<ruby>浴<rt>(あ)</rt></ruby>びて" data-ro="taiyou no hikari wo abite"><ruby>太陽<rt>(たいよう)</rt></ruby>の<ruby>光<rt>(ひかり)</rt></ruby>を<ruby>浴<rt>(あ)</rt></ruby>びて<span class="ro">taiyou no hikari wo abite</span></span>、 <span class="w" data-jp="<ruby>嬉<rt>(うれ)</rt></ruby>しそうに" data-ro="ureshisou ni"><ruby>嬉<rt>(うれ)</rt></ruby>しそうに<span class="ro">ureshisou ni</span></span> <span class="w" data-jp="<ruby>見<rt>(み)</rt></ruby>えました" data-ro="miemashita"><ruby>見<rt>(み)</rt></ruby>えました<span class="ro">miemashita</span></span>。 <span class="w" data-jp="「ここはあったかいね」" data-ro="koko wa attakai ne">「ここはあったかいね」<span class="ro">koko wa attakai ne</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="イチゴが" data-ro="ichigo ga">イチゴが<span class="ro">ichigo ga</span></span> <span class="w" data-jp="<ruby>言<rt>(い)</rt></ruby>いました" data-ro="iimashita"><ruby>言<rt>(い)</rt></ruby>いました<span class="ro">iimashita</span></span>。</p>
+<p><span class="w" data-jp="でも" data-ro="demo">でも<span class="ro">demo</span></span>、 <span class="w" data-jp="<ruby>他<rt>(ほか)</rt></ruby>の<ruby>花<rt>(はな)</rt></ruby>たちは" data-ro="hoka no hana-tachi wa"><ruby>他<rt>(ほか)</rt></ruby>の<ruby>花<rt>(はな)</rt></ruby>たちは<span class="ro">hoka no hana-tachi wa</span></span> <span class="w" data-jp="「どうして<ruby>立<rt>(た)</rt></ruby>っているの」" data-ro="doushite tatteiru no">「どうして<ruby>立<rt>(た)</rt></ruby>っているの」<span class="ro">doushite tatteiru no</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>聞<rt>(き)</rt></ruby>きました" data-ro="kikimashita"><ruby>聞<rt>(き)</rt></ruby>きました<span class="ro">kikimashita</span></span>。 <span class="w" data-jp="イチゴは" data-ro="ichigo wa">イチゴは<span class="ro">ichigo wa</span></span> <span class="w" data-jp="<ruby>少<rt>(すこ)</rt></ruby>し<ruby>考<rt>(かんが)</rt></ruby>えて" data-ro="sukoshi kangaete"><ruby>少<rt>(すこ)</rt></ruby>し<ruby>考<rt>(かんが)</rt></ruby>えて<span class="ro">sukoshi kangaete</span></span>、 <span class="w" data-jp="「おいしいイチゴになりたい、だから<ruby>立<rt>(た)</rt></ruby>つよ」" data-ro="oishii ichigo ni naritai, dakara tatsu yo">「おいしいイチゴになりたい、だから<ruby>立<rt>(た)</rt></ruby>つよ」<span class="ro">oishii ichigo ni naritai, dakara tatsu yo</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>答<rt>(こた)</rt></ruby>えました" data-ro="kotaemashita"><ruby>答<rt>(こた)</rt></ruby>えました<span class="ro">kotaemashita</span></span>。</p>
+<p><span class="w" data-jp="すると" data-ro="suruto">すると<span class="ro">suruto</span></span>、 <span class="w" data-jp="<ruby>白<rt>(しろ)</rt></ruby>い<ruby>花<rt>(はな)</rt></ruby>が" data-ro="shiroi hana ga"><ruby>白<rt>(しろ)</rt></ruby>い<ruby>花<rt>(はな)</rt></ruby>が<span class="ro">shiroi hana ga</span></span> <span class="w" data-jp="<ruby>笑<rt>(わら)</rt></ruby>って" data-ro="waratte"><ruby>笑<rt>(わら)</rt></ruby>って<span class="ro">waratte</span></span> <span class="w" data-jp="<ruby>言<rt>(い)</rt></ruby>いました" data-ro="iimashita"><ruby>言<rt>(い)</rt></ruby>いました<span class="ro">iimashita</span></span>。 <span class="w" data-jp="「でも、イチゴは<ruby>赤<rt>(あか)</rt></ruby>いじゃない」" data-ro="demo, ichigo wa akai janai">「でも、イチゴは<ruby>赤<rt>(あか)</rt></ruby>いじゃない」<span class="ro">demo, ichigo wa akai janai</span></span> <span class="w" data-jp="その<ruby>時<rt>(とき)</rt></ruby>" data-ro="sono toki">その<ruby>時<rt>(とき)</rt></ruby><span class="ro">sono toki</span></span>、 <span class="w" data-jp="イチゴはびっくりしました" data-ro="ichigo wa bikkuri shimashita">イチゴはびっくりしました<span class="ro">ichigo wa bikkuri shimashita</span></span>。</p>
+<p><span class="w" data-jp="「そうだ、<ruby>私<rt>(わたし)</rt></ruby>を<ruby>待<rt>(ま)</rt></ruby>っていて」" data-ro="sou da, watashi wo matteite">「そうだ、<ruby>私<rt>(わたし)</rt></ruby>を<ruby>待<rt>(ま)</rt></ruby>っていて」<span class="ro">sou da, watashi wo matteite</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>言<rt>(い)</rt></ruby>って" data-ro="itte"><ruby>言<rt>(い)</rt></ruby>って<span class="ro">itte</span></span>、 <span class="w" data-jp="<ruby>急<rt>(きゅう)</rt></ruby>に" data-ro="kyuu ni"><ruby>急<rt>(きゅう)</rt></ruby>に<span class="ro">kyuu ni</span></span> <span class="w" data-jp="<ruby>赤<rt>(あか)</rt></ruby>くなり<ruby>始<rt>(はじ)</rt></ruby>めました" data-ro="akaku narihajimemashita"><ruby>赤<rt>(あか)</rt></ruby>くなり<ruby>始<rt>(はじ)</rt></ruby>めました<span class="ro">akaku narihajimemashita</span></span>。 <span class="w" data-jp="イチゴは<ruby>赤<rt>(あか)</rt></ruby>くなって" data-ro="ichigo wa akaku natte">イチゴは<ruby>赤<rt>(あか)</rt></ruby>くなって<span class="ro">ichigo wa akaku natte</span></span>、 <span class="w" data-jp="みんなから" data-ro="minna kara">みんなから<span class="ro">minna kara</span></span> <span class="w" data-jp="「わぁ、イチゴだ」" data-ro="waa, ichigo da">「わぁ、イチゴだ」<span class="ro">waa, ichigo da</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>言<rt>(い)</rt></ruby>われました" data-ro="iwaremashita"><ruby>言<rt>(い)</rt></ruby>われました<span class="ro">iwaremashita</span></span>。</p>
+<p><span class="w" data-jp="イチゴはうれしくて" data-ro="ichigo wa ureshikute">イチゴはうれしくて<span class="ro">ichigo wa ureshikute</span></span>、 <span class="w" data-jp="もう<ruby>一<rt>(いち)</rt></ruby><ruby>度<rt>(ど)</rt></ruby><ruby>花<rt>(はな)</rt></ruby>の<ruby>中<rt>(なか)</rt></ruby>で" data-ro="mou ichido hana no naka de">もう<ruby>一<rt>(いち)</rt></ruby><ruby>度<rt>(ど)</rt></ruby><ruby>花<rt>(はな)</rt></ruby>の<ruby>中<rt>(なか)</rt></ruby>で<span class="ro">mou ichido hana no naka de</span></span> <span class="w" data-jp="「<ruby>私<rt>(わたし)</rt></ruby>はイチゴだよ」" data-ro="watashi wa ichigo da yo">「<ruby>私<rt>(わたし)</rt></ruby>はイチゴだよ」<span class="ro">watashi wa ichigo da yo</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>叫<rt>(さけ)</rt></ruby>びました" data-ro="sakebimashita"><ruby>叫<rt>(さけ)</rt></ruby>びました<span class="ro">sakebimashita</span></span>。</p></div>
+</div>
+
+<h2>Translation — open after your read</h2>
+<div class="card">
+<details><summary>SHOW ENGLISH TRANSLATION (after your attempt)</summary><div><ol><li>One day, a strawberry stood up. "I'm a strawberry!" it said.</li><li>The strawberry is standing among white flowers. Around it are lots of green leaves.</li><li>Bathing in sunlight, it looked happy. "It's warm here!" said the strawberry.</li><li>But the other flowers asked, "Strawberry, why are you standing?" The strawberry thought a little and answered, "I want to become a delicious strawberry! That's why I'll stand!"</li><li>Then a white flower laughed and said, "But strawberries are red, aren't they!" At that moment the strawberry was startled.</li><li>"Right — wait for me!" it said, and suddenly began turning red. Having turned red, everyone said "Wow, it's a strawberry!"</li><li>Happy, the strawberry shouted once more among the flowers, "I'm a strawberry!"</li></ol></div></details>
+</div>
+
+<h2>Quiz — tap one answer per card</h2>
+<div id="quiz"><div class="quiz" data-correct="2" data-hint="The strawberry says it out loud: it wants to become tasty. Standing is how it tries." data-praise="Right. It stands because it wants to become a delicious strawberry.">
+<div class="q-head"><span class="q-num">Q1</span><span class="q-pick">tap one</span></div>
+<p class="q-text">イチゴはどうして<ruby>立<rt>(た)</rt></ruby>っていますか？<button class="mini" data-toggle="l3q1r">Romaji</button><button class="mini" data-toggle="l3q1e">English</button></p>
+<div class="r-text" id="l3q1r">Ichigo wa doushite tatteimasu ka?</div>
+<div class="e-text" id="l3q1e">Why is the strawberry standing?</div>
+<button class="opt"><ruby>花<rt>(はな)</rt></ruby>の<ruby>中<rt>(なか)</rt></ruby>でかくれたいから<button class="mini" data-toggle="l3q1o0r">Romaji</button><button class="mini" data-toggle="l3q1o0e">English</button><div class="r-text" id="l3q1o0r">Hana no naka de kakuretai kara</div><div class="e-text" id="l3q1o0e">Because it wants to hide among the flowers</div></button>
+<button class="opt"><ruby>太陽<rt>(たいよう)</rt></ruby>の<ruby>光<rt>(ひかり)</rt></ruby>がきらいだから<button class="mini" data-toggle="l3q1o1r">Romaji</button><button class="mini" data-toggle="l3q1o1e">English</button><div class="r-text" id="l3q1o1r">Taiyou no hikari ga kirai dakara</div><div class="e-text" id="l3q1o1e">Because it hates sunlight</div></button>
+<button class="opt">おいしいイチゴになりたいから<button class="mini" data-toggle="l3q1o2r">Romaji</button><button class="mini" data-toggle="l3q1o2e">English</button><div class="r-text" id="l3q1o2r">Oishii ichigo ni naritai kara</div><div class="e-text" id="l3q1o2e">Because it wants to become a delicious strawberry</div></button>
+<div class="feedback"></div>
+</div>
+
+<div class="quiz" data-correct="2" data-hint="The white flower laughs first, then points at the color. Strawberries are supposed to be red." data-praise="Correct. The flower says: but strawberries are red!">
+<div class="q-head"><span class="q-num">Q2</span><span class="q-pick">tap one</span></div>
+<p class="q-text"><ruby>白<rt>(しろ)</rt></ruby>い<ruby>花<rt>(はな)</rt></ruby>は<ruby>何<rt>(なに)</rt></ruby>と<ruby>言<rt>(い)</rt></ruby>いましたか？<button class="mini" data-toggle="l3q2r">Romaji</button><button class="mini" data-toggle="l3q2e">English</button></p>
+<div class="r-text" id="l3q2r">Shiroi hana wa nani to iimashita ka?</div>
+<div class="e-text" id="l3q2e">What did the white flower say?</div>
+<button class="opt">イチゴは<ruby>白<rt>(しろ)</rt></ruby>いままでいい<button class="mini" data-toggle="l3q2o0r">Romaji</button><button class="mini" data-toggle="l3q2o0e">English</button><div class="r-text" id="l3q2o0r">Ichigo wa shiroi mama de ii</div><div class="e-text" id="l3q2o0e">Stay white, that's fine</div></button>
+<button class="opt">イチゴは<ruby>立<rt>(た)</rt></ruby>つな<button class="mini" data-toggle="l3q2o1r">Romaji</button><button class="mini" data-toggle="l3q2o1e">English</button><div class="r-text" id="l3q2o1r">Ichigo wa tatsu na</div><div class="e-text" id="l3q2o1e">Don't stand up</div></button>
+<button class="opt">イチゴは<ruby>赤<rt>(あか)</rt></ruby>いじゃない<button class="mini" data-toggle="l3q2o2r">Romaji</button><button class="mini" data-toggle="l3q2o2e">English</button><div class="r-text" id="l3q2o2r">Ichigo wa akai janai</div><div class="e-text" id="l3q2o2e">Strawberries are red, aren't they</div></button>
+<div class="feedback"></div>
+</div>
+
+<div class="quiz" data-correct="2" data-hint="After turning red, everyone finally recognizes it. It shouts its line again, happily." data-praise="Yes. It turns red, everyone recognizes it, and it happily shouts again.">
+<div class="q-head"><span class="q-num">Q3</span><span class="q-pick">tap one</span></div>
+<p class="q-text"><ruby>最後<rt>(さいご)</rt></ruby>にイチゴはどうなりましたか？<button class="mini" data-toggle="l3q3r">Romaji</button><button class="mini" data-toggle="l3q3e">English</button></p>
+<div class="r-text" id="l3q3r">Saigo ni ichigo wa dou narimashita ka?</div>
+<div class="e-text" id="l3q3e">What happened to the strawberry in the end?</div>
+<button class="opt"><ruby>花<rt>(はな)</rt></ruby>になって<ruby>飛<rt>(と)</rt></ruby>んでいった<button class="mini" data-toggle="l3q3o0r">Romaji</button><button class="mini" data-toggle="l3q3o0e">English</button><div class="r-text" id="l3q3o0r">Hana ni natte tondeitta</div><div class="e-text" id="l3q3o0e">It became a flower and flew away</div></button>
+<button class="opt"><ruby>緑<rt>(みどり)</rt></ruby>のままで<ruby>消<rt>(き)</rt></ruby>えた<button class="mini" data-toggle="l3q3o1r">Romaji</button><button class="mini" data-toggle="l3q3o1e">English</button><div class="r-text" id="l3q3o1r">Midori no mama de kieta</div><div class="e-text" id="l3q3o1e">It stayed green and disappeared</div></button>
+<button class="opt"><ruby>赤<rt>(あか)</rt></ruby>くなってみんなにイチゴだとわかった<button class="mini" data-toggle="l3q3o2r">Romaji</button><button class="mini" data-toggle="l3q3o2e">English</button><div class="r-text" id="l3q3o2r">Akaku natte minna ni ichigo da to wakatta</div><div class="e-text" id="l3q3o2e">It turned red and everyone recognized it as a strawberry</div></button>
+<div class="feedback"></div>
+</div>
+
+<div class="quiz" data-correct="0" data-hint="Green things around the strawberry — midori no happa. Think leaves, not seeds or light." data-praise="Exactly. happa = leaves of a plant.">
+<div class="q-head"><span class="q-num">Q4</span><span class="q-pick">tap one</span></div>
+<p class="q-text">「<ruby>葉<rt>(は)</rt></ruby>っぱ」はどういう<ruby>意味<rt>(いみ)</rt></ruby>？<button class="mini" data-toggle="l3q4r">Romaji</button><button class="mini" data-toggle="l3q4e">English</button></p>
+<div class="r-text" id="l3q4r">Happa wa dou iu imi?</div>
+<div class="e-text" id="l3q4e">What does happa mean?</div>
+<button class="opt"><ruby>葉<rt>(は)</rt></ruby>っぱは<ruby>植物<rt>(しょくぶつ)</rt></ruby>の<ruby>葉<rt>(は)</rt></ruby>のこと<button class="mini" data-toggle="l3q4o0r">Romaji</button><button class="mini" data-toggle="l3q4o0e">English</button><div class="r-text" id="l3q4o0r">Happa wa shokubutsu no ha no koto</div><div class="e-text" id="l3q4o0e">Leaves of a plant</div></button>
+<button class="opt"><ruby>葉<rt>(は)</rt></ruby>っぱは<ruby>太陽<rt>(たいよう)</rt></ruby>の<ruby>光<rt>(ひかり)</rt></ruby>のこと<button class="mini" data-toggle="l3q4o1r">Romaji</button><button class="mini" data-toggle="l3q4o1e">English</button><div class="r-text" id="l3q4o1r">Happa wa taiyou no hikari no koto</div><div class="e-text" id="l3q4o1e">Sunlight</div></button>
+<button class="opt"><ruby>葉<rt>(は)</rt></ruby>っぱは<ruby>花<rt>(はな)</rt></ruby>の<ruby>種<rt>(たね)</rt></ruby>のこと<button class="mini" data-toggle="l3q4o2r">Romaji</button><button class="mini" data-toggle="l3q4o2e">English</button><div class="r-text" id="l3q4o2r">Happa wa hana no tane no koto</div><div class="e-text" id="l3q4o2e">Flower seeds</div></button>
+<div class="feedback"></div>
+</div></div>
+
+<h2>Trivia</h2>
+<div class="card">Strawberries start as small white flowers and turn red as they ripen — exactly the joke in this story. In Japan, winter-to-spring strawberries are a big seasonal treat, often given as gifts.
+<details><summary>TELL ME MORE</summary><div>White strawberry blossoms become green fruit first, then red when sweet. That is why the flower in the story teases: you cannot be a strawberry while you are still white. Farmers pick them when the color turns fully red.</div></details>
+</div>
+
+<h2>Difficulty notes</h2>
+<div class="card"><ul><li>[N3] <ruby>立<rt>(た)</rt></ruby>つ / <ruby>立<rt>(た)</rt></ruby>っています — plain vs te-iru progressive. Standing as an ongoing state.</li><li>[N3] なりたい (〜たい) — want to become. おいしいイチゴになりたい = I want to become a tasty strawberry.</li><li>[N3] と言いました / と聞きました / と答えました — quotation with と. Direct speech pattern.</li><li>[N2+] <ruby>浴<rt>(あ)</rt></ruby>びて — sunlight bathing verb; common in weather/nature descriptions.</li><li>[N3] もう<ruby>一<rt>(いち)</rt></ruby><ruby>度<rt>(ど)</rt></ruby> — once more. Time-frequency expression.</li></ul></div>
+
+<h2>Dialect notes</h2>
+<div class="card">Standard polite Japanese throughout (〜ました / 〜です). No Kansai forms in this story — compare with the earlier Kansai lesson where sentence-enders and sound words differ. Speech here is soft storybook style with よ / ね / じゃない.</div>
+
+<h2>Finish</h2>
+<div class="card">
+<label>Comments (how did it go?): <textarea id="comments" rows="3"></textarea></label><br><br>
+<button id="finish" class="primary">FINISH — save</button> <span id="saved"></span>
+</div>
+<!-- NO try-it/sentence box. FINISH posts picked{} + attempts + auto signals. -->
+
+<script>
+const t0 = Date.now();
+let peeks = [];
+let furiganaState = 'ON';
+const btn = document.getElementById('furiganaBtn');
+btn.onclick = () => {
+  document.body.classList.toggle('no-furigana');
+  furiganaState = document.body.classList.contains('no-furigana') ? 'OFF' : 'ON';
+  btn.textContent = 'FURIGANA: ' + furiganaState;
+};
+document.querySelectorAll('#snippet .w').forEach(w => {
+  w.onclick = () => {
+    w.classList.toggle('show-ro');
+    peeks.push(w.dataset.jp || w.dataset.ro || 'word');
+  };
+});
+let romajiOn = false;
+const rbtn = document.getElementById('romajiBtn');
+if (rbtn) rbtn.onclick = () => {
+  romajiOn = !romajiOn;
+  document.body.classList.toggle('romaji-on', romajiOn);
+  rbtn.textContent = 'ROMAJI: ' + (romajiOn ? 'ON' : 'OFF');
+};
+document.querySelectorAll('.quiz').forEach((q, qi) => {
+  const correct = parseInt(q.dataset.correct, 10);
+  const fb = q.querySelector('.feedback');
+  const hint = q.dataset.hint || 'Not that one — re-read the snippet and try another.';
+  const praise = q.dataset.praise || 'Correct.';
+  q.dataset.attempts = '0';
+  q.querySelectorAll('[data-toggle]').forEach(b => {
+    b.onclick = (e) => { e.stopPropagation(); const t = q.querySelector('#' + b.dataset.toggle); if (t) t.classList.toggle('show'); };
+  });
+  q.querySelectorAll('.opt').forEach((b, i) => {
+    b.onclick = () => {
+      if (q.dataset.solved === '1') return;
+      if (i === correct) {
+        const n = parseInt(q.dataset.attempts, 10);
+        b.classList.add('solved');
+        q.querySelectorAll('.opt').forEach(x => { if (x !== b) x.disabled = true; });
+        fb.className = 'feedback show praise';
+        fb.textContent = (n > 0 ? '✓ Got it after ' + (n+1) + ' tries. ' : '✓ ') + praise;
+        q.dataset.solved = '1';
+        q.dataset.picked = String(i);
+      } else {
+        q.dataset.attempts = String(parseInt(q.dataset.attempts, 10) + 1);
+        b.classList.add('picked-wrong');
+        b.disabled = true;
+        fb.className = 'feedback show hint';
+        fb.textContent = '✗ Not that one (' + q.dataset.attempts + ' miss' + (q.dataset.attempts === '1' ? '' : 'es') + '). Hint: ' + hint;
+        q.dataset.picked = String(i);
+      }
+    };
+  });
+});
+document.getElementById('finish').onclick = async () => {
+  const picked = {}, attempts = {};
+  let ok = 0, total = 0;
+  document.querySelectorAll('.quiz').forEach((q, i) => {
+    total++;
+    if (q.dataset.picked !== undefined) picked['Q'+(i+1)] = q.dataset.picked;
+    attempts['Q'+(i+1)] = q.dataset.attempts || '0';
+    if (q.dataset.solved === '1') ok++;
+  });
+  const body = {
+    lesson: '2026-09-21-3',
+    picked, attempts, score: ok + '/' + total,
+    comments: document.getElementById('comments').value,
+    peeks, furigana: furiganaState,
+    seconds: Math.round((Date.now()-t0)/1000)
+  };
+  const r = await fetch('/api/save', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+  document.getElementById('saved').textContent = r.ok ? 'saved ✓' : 'save failed';
+};
+</script>
+</body>
+</html>
