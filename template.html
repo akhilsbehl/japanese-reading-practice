@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}} — Real Japanese Lesson</title>
+<style>
+body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:2}
+ruby rt{font-size:.65em;color:#555}
+body.no-furigana ruby rt{display:none}
+.romaji span[data-r]{cursor:pointer;background:#eee;border-radius:6px;padding:0 .4em;margin:0 .1em}
+.romaji span[data-r].peeked{background:#d9ecff}
+.quiz .ans{display:none;background:#f6f6f6;padding:.5rem;border-radius:8px}
+.quiz.answered .ans{display:block}
+button{padding:.4rem .8rem;border-radius:8px;border:1px solid #ccc;cursor:pointer}
+.small{color:#666;font-size:.9em}
+#saved{color:green;font-weight:bold}
+textarea,input[type=text]{width:100%;padding:.5rem;font-size:1rem}
+</style>
+</head>
+<body>
+<h1>{{TITLE}}</h1>
+<p class="small">Source: <a href="{{URL}}">{{SOURCE}}</a> · {{DATE}} · hat: {{HAT}} {{SYNTHETIC}}</p>
+
+<h2>1. Snippet</h2>
+<button id="furiganaBtn">FURIGANA: ON</button>
+<div id="snippet">{{SNIPPET_RUBY}}</div>
+
+<h2>2. Romaji (hidden)</h2>
+<button id="romajiAll">SHOW ALL</button>
+<div class="romaji" id="romaji">{{ROMAJI_TOKENS}}</div>
+
+<h2>3. Quiz (5 max)</h2>
+<div id="quiz">{{QUIZ_HTML}}</div>
+
+<h2>4. Trivia</h2>
+<div>{{TRIVIA}}</div>
+<details><summary>TELL ME MORE</summary><div>{{TRIVIA_MORE}}</div></details>
+
+<h2>5. Difficulty notes</h2>
+<div>{{DIFFICULTY}}</div>
+
+<h2>6. Dialect notes (Standard ⇄ Kansai)</h2>
+<div>{{DIALECT}}</div>
+
+<h2>7. Finish</h2>
+<label>Your try-it sentence: <input type="text" id="sentence"></label><br><br>
+<label>Comments (how did it go?): <textarea id="comments" rows="3"></textarea></label><br><br>
+<button id="finish">FINISH — save</button> <span id="saved"></span>
+
+<script>
+const t0 = Date.now();
+let peeks = [];
+let furiganaState = 'ON';
+const btn = document.getElementById('furiganaBtn');
+btn.onclick = () => {
+  document.body.classList.toggle('no-furigana');
+  furiganaState = document.body.classList.contains('no-furigana') ? 'OFF' : 'ON';
+  btn.textContent = 'FURIGANA: ' + furiganaState;
+};
+const romaji = document.getElementById('romaji');
+document.querySelectorAll('#romaji span[data-r]').forEach(s => {
+  s.textContent = '▪';
+  s.onclick = () => {
+    s.classList.add('peeked');
+    s.textContent = s.dataset.r;
+    peeks.push(s.dataset.w || s.dataset.r);
+  };
+});
+let showAll = false;
+document.getElementById('romajiAll').onclick = (e) => {
+  showAll = !showAll;
+  e.target.textContent = showAll ? 'HIDE ALL' : 'SHOW ALL';
+  document.querySelectorAll('#romaji span[data-r]').forEach(s => {
+    s.textContent = showAll ? s.dataset.r : '▪';
+    if (showAll) s.classList.add('peeked');
+  });
+};
+document.querySelectorAll('.quiz').forEach(q => {
+  q.querySelector('button').onclick = () => q.classList.add('answered');
+});
+document.getElementById('finish').onclick = async () => {
+  const score = prompt('Self-score? e.g. 4/5, missed Q2', '');
+  const missed = prompt('Missed words/points (comma)?', '');
+  const body = {
+    lesson: '{{LESSON_ID}}',
+    score: score || '', missed: missed || '',
+    sentence: document.getElementById('sentence').value,
+    comments: document.getElementById('comments').value,
+    peeks, furigana: furiganaState,
+    seconds: Math.round((Date.now()-t0)/1000)
+  };
+  const r = await fetch('/api/save', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+  document.getElementById('saved').textContent = r.ok ? 'saved ✓' : 'save failed';
+};
+</script>
+</body>
+</html>
