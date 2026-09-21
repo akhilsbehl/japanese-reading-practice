@@ -5,49 +5,73 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>台風25号、関東に最接近 — Real Japanese Lesson</title>
 <style>
-body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:2}
-ruby rt{font-size:.65em;color:#555}
+:root{--ink:#1f2937;--mut:#6b7280;--bg:#faf8f2;--card:#ffffff;--line:#e8e2d5;--ind:#4f46e5;--ind-soft:#eef2ff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
+*{box-sizing:border-box}
+body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:780px;margin:0 auto;padding:24px 18px 64px;line-height:2;color:var(--ink);background:var(--bg)}
+h1{font-size:1.9rem;line-height:1.5;margin:.4em 0}
+h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem}
+h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--ind);display:inline-block}
+ruby rt{font-size:.62em;color:#7c6f5a}
 body.no-furigana ruby rt{display:none}
-.romaji span[data-r]{cursor:pointer;background:#eee;border-radius:6px;padding:0 .4em;margin:0 .1em}
-.romaji span[data-r].peeked{background:#d9ecff}
-.quiz .ans{display:none;background:#f6f6f6;padding:.5rem;border-radius:8px}
-.quiz.answered .ans{display:block}
-.opt{display:block;width:100%;text-align:left;margin:.3rem 0;background:#fff}
-.opt.correct{background:#dff0d8;border-color:#5cb85c}
-.opt.wrong{background:#f2dede;border-color:#d9534f}
-.feedback{display:none;background:#f6f6f6;padding:.5rem;border-radius:8px;margin-top:.5rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:0 1px 2px rgba(30,20,0,.05)}
+.small{color:var(--mut);font-size:.85em}
+button{padding:.4rem .9rem;border-radius:999px;border:1px solid #d6cfbd;background:#fff;cursor:pointer;font-size:.9rem}
+button:hover{border-color:var(--ind);color:var(--ind)}
+button.primary{background:var(--ind);border-color:var(--ind);color:#fff;font-weight:600}
+button.primary:hover{filter:brightness(1.05);color:#fff}
+#snippet p{font-size:1.25rem;line-height:2.4;margin:.4em 0}
+.romaji span[data-r]{cursor:pointer;background:var(--ind-soft);border:1px solid #c7d2fe;border-radius:8px;padding:0 .45em;margin:0 .12em}
+.romaji span[data-r].peeked{background:#dbeafe}
+/* quiz cards */
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;margin:14px 0;box-shadow:0 2px 8px rgba(60,40,0,.06)}
+.q-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem}
+.q-num{background:var(--ind);color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
+.q-pick{color:var(--mut);font-size:.8rem;border:1px dashed #c9c0aa;border-radius:999px;padding:.05rem .6rem}
+.q-text{font-size:1.15rem;margin:.3em 0}
+.opt{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;margin:.45rem 0;background:#fff;border:1.5px solid #ddd6c4;border-radius:12px;padding:.55rem .7rem;font-size:1.05rem;line-height:2}
+.opt::before{content:"";flex:0 0 auto;width:18px;height:18px;border-radius:50%;border:2px solid #b8ad90;margin-top:.55em}
+.opt:hover{border-color:var(--ind);background:#fbf9ff}
+.opt.picked-wrong{border-color:#f87171;background:var(--red-bg)}
+.opt.picked-wrong::before{border-color:#ef4444;background:#ef4444;box-shadow:inset 0 0 0 3px #fff}
+.opt.solved{border-color:#86efac;background:var(--green-bg)}
+.opt.solved::before{border-color:#22c55e;background:#22c55e;box-shadow:inset 0 0 0 3px #fff}
+.opt:disabled{opacity:1;cursor:default}
+.feedback{display:none;border-radius:12px;padding:.6rem .8rem;margin-top:.6rem;font-size:.95rem;line-height:1.8}
 .feedback.show{display:block}
-.mini{font-size:.8em;margin-left:.4rem}
-.r-text,.e-text{display:none;background:#fafafa;padding:.3rem .5rem;border-radius:6px;margin:.2rem 0}
+.feedback.hint{background:var(--amber-bg);border:1px solid #fcd34d;color:var(--amber)}
+.feedback.praise{background:var(--green-bg);border:1px solid #86efac;color:var(--green)}
+.mini{font-size:.75em;margin-left:.4rem;padding:.2rem .6rem}
+.r-text,.e-text{display:none;background:#f8fafc;border:1px dashed #cbd5e1;padding:.3rem .6rem;border-radius:8px;margin:.25rem 0;font-size:.9rem;line-height:1.9}
 .r-text.show,.e-text.show{display:block}
-button{padding:.4rem .8rem;border-radius:8px;border:1px solid #ccc;cursor:pointer}
-.small{color:#666;font-size:.9em}
-#saved{color:green;font-weight:bold}
-textarea{width:100%;padding:.5rem;font-size:1rem}
+#saved{color:var(--green);font-weight:bold}
+textarea{width:100%;padding:.6rem;font-size:1rem;border-radius:12px;border:1px solid var(--line)}
+details.card summary{cursor:pointer;font-weight:600}
 </style>
 </head>
 <body>
 <h1><ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>、<ruby>関東<rt>(かんとう)</rt></ruby>に<ruby>最<rt>(もっと)</rt></ruby>も<ruby>接近<rt>(せっきん)</rt></ruby></h1>
 <p class="small">Source: <a href="https://news.yahoo.co.jp/articles/ccd1611c760303c8b2c06bed73b09afc970e5ab1">日テレNEWS NNN via Yahoo!ニュース</a> · 2026-09-21 · hat: tokyo_life </p>
+<!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby>Kanji<rt>(reading)</rt></ruby>. TRIVIA/DIALECT/feedback = English only. Wrong pick NEVER reveals correct; retry allowed. -->
 
-<h2>1. Snippet</h2>
+<h2>Read</h2>
+<div class="card">
 <button id="furiganaBtn">FURIGANA: ON</button>
-<div id="snippet">
-<p>21<ruby>日<rt>(にち)</rt></ruby>(<ruby>月<rt>(げつ)</rt></ruby>)は<ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>が<ruby>接近<rt>(せっきん)</rt></ruby>する<ruby>関東<rt>(かんとう)</rt></ruby>で<ruby>大雨<rt>(おおあめ)</rt></ruby>となっています。</p>
+<div id="snippet"><p>21<ruby>日<rt>(にち)</rt></ruby>(<ruby>月<rt>(げつ)</rt></ruby>)は<ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>が<ruby>接近<rt>(せっきん)</rt></ruby>する<ruby>関東<rt>(かんとう)</rt></ruby>で<ruby>大雨<rt>(おおあめ)</rt></ruby>となっています。</p>
 <p><ruby>夜<rt>(よる)</rt></ruby>にかけてが<ruby>大雨<rt>(おおあめ)</rt></ruby>・<ruby>大荒<rt>(おおあ)</rt></ruby>れのピークとなりそうです。</p>
 <p><ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>は21<ruby>日<rt>(にち)</rt></ruby><ruby>夕方<rt>(ゆうがた)</rt></ruby><ruby>現在<rt>(げんざい)</rt></ruby>、<ruby>関東<rt>(かんとう)</rt></ruby>に<ruby>最<rt>(もっと)</rt></ruby>も<ruby>接近<rt>(せっきん)</rt></ruby>しています。</p>
-<p><ruby>伊豆諸島<rt>(いずしょとう)</rt></ruby>の<ruby>大島町<rt>(おおしまちょう)</rt></ruby>にはレベル5<ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby>が<ruby>発表<rt>(はっぴょう)</rt></ruby>されました。</p>
+<p><ruby>伊豆諸島<rt>(いずしょとう)</rt></ruby>の<ruby>大島町<rt>(おおしまちょう)</rt></ruby>にはレベル5<ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby>が<ruby>発表<rt>(はっぴょう)</rt></ruby>されました。</p></div>
 </div>
 
-<h2>2. Romaji (hidden)</h2>
+<h2>Sound it out</h2>
+<div class="card">
 <button id="romajiAll">SHOW ALL</button>
 <div class="romaji" id="romaji"><span data-r="nijuuichinichi" data-w="21日">▪</span> <span data-r="getsu" data-w="月">▪</span> <span data-r="wa" data-w="は">▪</span> <span data-r="taifuu" data-w="台風">▪</span> <span data-r="nijuu-go" data-w="25号">▪</span> <span data-r="ga" data-w="が">▪</span> <span data-r="sekkin" data-w="接近">▪</span> <span data-r="suru" data-w="する">▪</span> <span data-r="kantou" data-w="関東">▪</span> <span data-r="de" data-w="で">▪</span> <span data-r="ooame" data-w="大雨">▪</span> <span data-r="to" data-w="と">▪</span> <span data-r="natteimasu" data-w="なっています">▪</span> <span data-r="yoru" data-w="夜">▪</span> <span data-r="nikakete" data-w="にかけて">▪</span> <span data-r="ooare" data-w="大荒れ">▪</span> <span data-r="piiku" data-w="ピーク">▪</span> <span data-r="yuugata" data-w="夕方">▪</span> <span data-r="genzai" data-w="現在">▪</span> <span data-r="mottomo" data-w="最も">▪</span> <span data-r="izushotou" data-w="伊豆諸島">▪</span> <span data-r="ooshimachou" data-w="大島町">▪</span> <span data-r="doshasaigaitokubetsukeihou" data-w="土砂災害特別警報">▪</span> <span data-r="happyou" data-w="発表">▪</span></div>
+</div>
 
-<h2>3. Quiz — tap an answer</h2>
-<div id="quiz">
-
-<div class="quiz" data-correct="2" data-hint="Re-read sentence 2: 夜にかけてがピークとなりそうです — peak runs into the night, not morning." data-praise="Right. 夜にかけて = into the night. This N3 pattern shows a span ending at night.">
-<p><ruby>大雨<rt>(おおあめ)</rt></ruby>のピークはいつ？<button class="mini" data-toggle="q1r">Romaji</button><button class="mini" data-toggle="q1e">English</button></p>
+<h2>Quiz — tap one answer per card</h2>
+<div id="quiz"><div class="quiz" data-correct="2" data-hint="Re-read sentence 2: 夜にかけてがピークとなりそうです — peak runs into the night, not morning." data-praise="Right. 夜にかけて = into the night. This N3 pattern shows a span ending at night.">
+<div class="q-head"><span class="q-num">Q1</span><span class="q-pick">tap one</span></div>
+<p class="q-text"><ruby>大雨<rt>(おおあめ)</rt></ruby>のピークはいつ？<button class="mini" data-toggle="q1r">Romaji</button><button class="mini" data-toggle="q1e">English</button></p>
 <div class="r-text" id="q1r">Ooame no piiku wa itsu?</div>
 <div class="e-text" id="q1e">When is the heavy-rain peak?</div>
 <button class="opt"><ruby>朝<rt>(あさ)</rt></ruby>には<ruby>終<rt>(お)</rt></ruby>わった<button class="mini" data-toggle="q1o0r">Romaji</button><button class="mini" data-toggle="q1o0e">English</button><div class="r-text" id="q1o0r">Asa ni wa owatta</div><div class="e-text" id="q1o0e">It ended in the morning</div></button>
@@ -57,7 +81,8 @@ textarea{width:100%;padding:.5rem;font-size:1rem}
 </div>
 
 <div class="quiz" data-correct="0" data-hint="Sentence 3 says 関東に最も接近しています — closest to Kanto right now." data-praise="Correct. 最も接近 = closest approach. News loves 最も + verb.">
-<p><ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>は<ruby>今<rt>(いま)</rt></ruby>どこに？<button class="mini" data-toggle="q2r">Romaji</button><button class="mini" data-toggle="q2e">English</button></p>
+<div class="q-head"><span class="q-num">Q2</span><span class="q-pick">tap one</span></div>
+<p class="q-text"><ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>は<ruby>今<rt>(いま)</rt></ruby>どこに？<button class="mini" data-toggle="q2r">Romaji</button><button class="mini" data-toggle="q2e">English</button></p>
 <div class="r-text" id="q2r">Taifuu 25-gou wa ima doko ni?</div>
 <div class="e-text" id="q2e">Where is Typhoon 25 now?</div>
 <button class="opt"><ruby>関東<rt>(かんとう)</rt></ruby>に<ruby>最<rt>(もっと)</rt></ruby>も<ruby>接近<rt>(せっきん)</rt></ruby>している<button class="mini" data-toggle="q2o0r">Romaji</button><button class="mini" data-toggle="q2o0e">English</button><div class="r-text" id="q2o0r">Kantou ni mottomo sekkin shiteiru</div><div class="e-text" id="q2o0e">Closest to Kanto</div></button>
@@ -67,7 +92,8 @@ textarea{width:100%;padding:.5rem;font-size:1rem}
 </div>
 
 <div class="quiz" data-correct="0" data-hint="Last sentence: レベル5土砂災害特別警報が発表されました — level 5 special warning was issued." data-praise="Yes. Level 5 = highest alert, danger already present. Good survival word.">
-<p><ruby>大島町<rt>(おおしまちょう)</rt></ruby>に<ruby>出<rt>(で)</rt></ruby>たのは？<button class="mini" data-toggle="q3r">Romaji</button><button class="mini" data-toggle="q3e">English</button></p>
+<div class="q-head"><span class="q-num">Q3</span><span class="q-pick">tap one</span></div>
+<p class="q-text"><ruby>大島町<rt>(おおしまちょう)</rt></ruby>に<ruby>出<rt>(で)</rt></ruby>たのは？<button class="mini" data-toggle="q3r">Romaji</button><button class="mini" data-toggle="q3e">English</button></p>
 <div class="r-text" id="q3r">Ooshimachou ni deta no wa?</div>
 <div class="e-text" id="q3e">What was issued for Oshima town?</div>
 <button class="opt">レベル5<ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby><button class="mini" data-toggle="q3o0r">Romaji</button><button class="mini" data-toggle="q3o0e">English</button><div class="r-text" id="q3o0r">Reberu 5 dosha-saigai tokubetsu-keihou</div><div class="e-text" id="q3o0e">Level 5 landslide special warning</div></button>
@@ -77,7 +103,8 @@ textarea{width:100%;padding:.5rem;font-size:1rem}
 </div>
 
 <div class="quiz" data-correct="2" data-hint="接近 = 近づくこと. Think 近 (near) inside 接近." data-praise="Exactly. 接近 = approach. Opposite is 遠ざかる (move away).">
-<p>「<ruby>接近<rt>(せっきん)</rt></ruby>」の<ruby>意味<rt>(いみ)</rt></ruby>は？<button class="mini" data-toggle="q4r">Romaji</button><button class="mini" data-toggle="q4e">English</button></p>
+<div class="q-head"><span class="q-num">Q4</span><span class="q-pick">tap one</span></div>
+<p class="q-text">「<ruby>接近<rt>(せっきん)</rt></ruby>」の<ruby>意味<rt>(いみ)</rt></ruby>は？<button class="mini" data-toggle="q4r">Romaji</button><button class="mini" data-toggle="q4e">English</button></p>
 <div class="r-text" id="q4r">Sekkin no imi wa?</div>
 <div class="e-text" id="q4e">What does "sekkin" mean?</div>
 <button class="opt"><ruby>接近<rt>(せっきん)</rt></ruby>=<ruby>止<rt>(と)</rt></ruby>まること<button class="mini" data-toggle="q4o0r">Romaji</button><button class="mini" data-toggle="q4o0e">English</button><div class="r-text" id="q4o0r">Sekkin = tomaru koto</div><div class="e-text" id="q4o0e">To stop</div></button>
@@ -85,23 +112,25 @@ textarea{width:100%;padding:.5rem;font-size:1rem}
 <button class="opt"><ruby>接近<rt>(せっきん)</rt></ruby>=<ruby>近<rt>(ちか)</rt></ruby>づくこと<button class="mini" data-toggle="q4o2r">Romaji</button><button class="mini" data-toggle="q4o2e">English</button><div class="r-text" id="q4o2r">Sekkin = chikazuku koto</div><div class="e-text" id="q4o2e">To approach</div></button>
 <div class="feedback"></div>
 </div>
-
 </div>
 
-<h2>4. Trivia</h2>
-<div>September 21 falls in Silver Week (a cluster of Japanese holidays). This typhoon hit during that travel peak: flooding in Kamakura and Chiba, ~200 people queueing for taxis at Shinagawa Station. The trio "heavy rain / violent wind / special warning" returns almost every typhoon season in Kanto.</div>
+<h2>Trivia</h2>
+<div class="card">September 21 falls in Silver Week (a cluster of Japanese holidays). This typhoon hit during that travel peak: flooding in Kamakura and Chiba, ~200 people queueing for taxis at Shinagawa Station. The trio "heavy rain / violent wind / special warning" returns almost every typhoon season in Kanto.
 <details><summary>TELL ME MORE</summary><div>Oshima Island suffered a deadly landslide disaster in 2013. This time 657.5 mm in 24 hours is the second-highest on record there. Level 5 means danger is already present — act to save your life. The weather agency urged vigilance until the early hours of the 22nd. Good follow-up vocabulary for Tokyo life: evacuation instructions and shelter wording.</div></details>
+</div>
 
-<h2>5. Difficulty notes</h2>
-<div><ul><li><ruby>接近<rt>(せっきん)</rt></ruby>する [N3] — to approach (formal news word). Grammar: 〜となっています (result state, N4).</li><li>〜にかけて [N3] — toward / through a period.</li><li>〜となりそうです [N3] — looks like it will become (conjecture).</li><li><ruby>最<rt>(もっと)</rt></ruby>も [N3] — most. <ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby> [N2+ word built from N3 kanji].</li><li><ruby>夕方現在<rt>(ゆうがたげんざい)</rt></ruby> [N3+] — news formula "as of this evening". Raw text kept, no simplification.</li></ul></div>
+<h2>Difficulty notes</h2>
+<div class="card"><ul><li><ruby>接近<rt>(せっきん)</rt></ruby>する [N3] — to approach (formal news word). Grammar: 〜となっています (result state, N4).</li><li>〜にかけて [N3] — toward / through a period.</li><li>〜となりそうです [N3] — looks like it will become (conjecture).</li><li><ruby>最<rt>(もっと)</rt></ruby>も [N3] — most. <ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby> [N2+ word built from N3 kanji].</li><li><ruby>夕方現在<rt>(ゆうがたげんざい)</rt></ruby> [N3+] — news formula "as of this evening". Raw text kept, no simplification.</li></ul></div>
 
-<h2>6. Dialect notes (Standard ⇄ Kansai)</h2>
-<div>This snippet is fully standard formal news Japanese. In Kansai conversation, 「〜となっています」 becomes 「〜になっとる / 〜なってるで」. A Kansai speaker might say the gist as "It's heavy rain, peak toward the night." Kagawa family speech also uses 「〜しよる」 for ongoing action (e.g. rain falling). For Tokyo daily life, standard + polite form is enough; at home, map standard forms to these Kansai equivalents for listening.</div>
+<h2>Dialect notes</h2>
+<div class="card">This snippet is fully standard formal news Japanese. In Kansai conversation, 「〜となっています」 becomes 「〜になっとる / 〜なってるで」. A Kansai speaker might say the gist as "It's heavy rain, peak toward the night." Kagawa family speech also uses 「〜しよる」 for ongoing action (e.g. rain falling). For Tokyo daily life, standard + polite form is enough; at home, map standard forms to these Kansai equivalents for listening.</div>
 
-<h2>7. Finish</h2>
+<h2>Finish</h2>
+<div class="card">
 <label>Comments (how did it go?): <textarea id="comments" rows="3"></textarea></label><br><br>
-<button id="finish">FINISH — save</button> <span id="saved"></span>
-<!-- NO try-it/sentence box (writing removed). FINISH posts picked{} + auto signals only. -->
+<button id="finish" class="primary">FINISH — save</button> <span id="saved"></span>
+</div>
+<!-- NO try-it/sentence box. FINISH posts picked{} + attempts + auto signals. -->
 
 <script>
 const t0 = Date.now();
@@ -130,31 +159,49 @@ document.getElementById('romajiAll').onclick = (e) => {
     if (showAll) s.classList.add('peeked');
   });
 };
-document.querySelectorAll('.quiz').forEach(q => {
+document.querySelectorAll('.quiz').forEach((q, qi) => {
   const correct = parseInt(q.dataset.correct, 10);
   const fb = q.querySelector('.feedback');
-  const hint = q.dataset.hint || 'Try again — re-read the snippet lines.';
+  const hint = q.dataset.hint || 'Not that one — re-read the snippet and try another.';
   const praise = q.dataset.praise || 'Correct.';
+  q.dataset.attempts = '0';
   q.querySelectorAll('[data-toggle]').forEach(b => {
     b.onclick = (e) => { e.stopPropagation(); const t = q.querySelector('#' + b.dataset.toggle); if (t) t.classList.toggle('show'); };
   });
   q.querySelectorAll('.opt').forEach((b, i) => {
     b.onclick = () => {
-      q.querySelectorAll('.opt').forEach(x => x.classList.remove('correct','wrong'));
-      if (i === correct) { b.classList.add('correct'); fb.textContent = '✓ ' + praise; }
-      else { b.classList.add('wrong'); q.querySelectorAll('.opt')[correct].classList.add('correct'); fb.textContent = '✗ Hint: ' + hint; }
-      fb.classList.add('show');
-      q.dataset.picked = String(i);
+      if (q.dataset.solved === '1') return;
+      if (i === correct) {
+        const n = parseInt(q.dataset.attempts, 10);
+        b.classList.add('solved');
+        q.querySelectorAll('.opt').forEach(x => { if (x !== b) x.disabled = true; });
+        fb.className = 'feedback show praise';
+        fb.textContent = (n > 0 ? '✓ Got it after ' + (n+1) + ' tries. ' : '✓ ') + praise;
+        q.dataset.solved = '1';
+        q.dataset.picked = String(i);
+      } else {
+        q.dataset.attempts = String(parseInt(q.dataset.attempts, 10) + 1);
+        b.classList.add('picked-wrong');
+        b.disabled = true;
+        fb.className = 'feedback show hint';
+        fb.textContent = '✗ Not that one (' + q.dataset.attempts + ' miss' + (q.dataset.attempts === '1' ? '' : 'es') + '). Hint: ' + hint;
+        q.dataset.picked = String(i);
+      }
     };
   });
 });
 document.getElementById('finish').onclick = async () => {
-  const picked = {};
+  const picked = {}, attempts = {};
   let ok = 0, total = 0;
-  document.querySelectorAll('.quiz').forEach((q, i) => { total++; const p = q.dataset.picked; if (p !== undefined) { picked['Q'+(i+1)] = p; if (parseInt(p,10) === parseInt(q.dataset.correct,10)) ok++; } });
+  document.querySelectorAll('.quiz').forEach((q, i) => {
+    total++;
+    if (q.dataset.picked !== undefined) picked['Q'+(i+1)] = q.dataset.picked;
+    attempts['Q'+(i+1)] = q.dataset.attempts || '0';
+    if (q.dataset.solved === '1') ok++;
+  });
   const body = {
     lesson: '2026-09-21-1',
-    picked, score: ok + '/' + total,
+    picked, attempts, score: ok + '/' + total,
     comments: document.getElementById('comments').value,
     peeks, furigana: furiganaState,
     seconds: Math.round((Date.now()-t0)/1000)

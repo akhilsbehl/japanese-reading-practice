@@ -24,7 +24,7 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 ## Language + furigana rules (fixed 2026-09-21)
 - Japanese WITH furigana (ruby, global ON/OFF applies to whole page): title (`{{TITLE_RUBY}}`), snippet (`{{SNIPPET_RUBY}}`), quiz questions + options (`{{QUIZ_HTML}}` — every kanji gets `<ruby>Kanji<rt>(reading)</rt></ruby>` with readings IN PARENS so boundaries are visible).
 - English ONLY (no furigana, never Japanese exercise text): trivia (`{{TRIVIA}}` + `{{TRIVIA_MORE}}`), dialect notes (`{{DIALECT}}`), quiz hints/reinforcement/feedback, section UI/labels/buttons (keep English).
-- Quiz interaction (no SHOW ANSWER, no try-it): each Q renders options as clickable buttons; clicking correct shows reinforcement (English), wrong shows hint (English). Each question stem AND each option has its own [Romaji] [English] toggle revealing a line under that Japanese. Romaji/English hidden by default.
+- Quiz interaction (no SHOW ANSWER, no try-it, NO reveal-on-wrong): each Q is a segregated card with `Qn · tap one` header. Options are radio-style buttons; wrong pick marks ONLY that option red + English hint, keeps correct hidden, allows retry; correct pick marks green + English reinforcement and locks card. Track `attempts` per Q. Each stem + option keeps [Romaji] [English] toggles.
 - Difficulty notes: English explanations; Japanese terms cited with ruby.
 - `tools/reading.py` must run for title, snippet, AND each quiz Japanese string before building HTML. No bare kanji in exercise zones.
 
@@ -32,7 +32,7 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 - Title: `<h1>{{TITLE_RUBY}}</h1>` (ruby required). Keep `<title>` plain-text fallback.
 - Furigana: `<ruby>漢字<rt>(かんじ)</rt></ruby>` — parens REQUIRED inside every `rt` so single-kanji boundaries read clearly, global toggle hides ALL `rt` on page (title+snippet+quiz).
 - Romaji: snippet token spans `data-r="watashi"`, hidden as `▪` until tap; SHOW ALL/HIDE ALL. Quiz Romaji/English: per-item toggles under each stem/option (hidden divs), never overlay.
-- Quiz: 4 MCQ max, options are clickable buttons; FINISH POSTs JSON `{lesson, picked{}, score, comments, peeks[], furigana, seconds}` (no sentence).
+- Quiz: 4 MCQ max, options are radio-style `.opt` buttons in segregated `.quiz` cards; FINISH POSTs JSON `{lesson, picked{}, attempts{}, score, comments, peeks[], furigana, seconds}` (no sentence).
 - Track: click on romaji token logs peek; toggle logs furigana state; timer logs seconds.
 
 ## Randomness (mandatory — never let the LLM roll)

@@ -5,57 +5,86 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{TITLE_PLAIN}} — Real Japanese Lesson</title>
 <style>
-body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:2}
-ruby rt{font-size:.65em;color:#555}
+:root{--ink:#1f2937;--mut:#6b7280;--bg:#faf8f2;--card:#ffffff;--line:#e8e2d5;--ind:#4f46e5;--ind-soft:#eef2ff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
+*{box-sizing:border-box}
+body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:780px;margin:0 auto;padding:24px 18px 64px;line-height:2;color:var(--ink);background:var(--bg)}
+h1{font-size:1.9rem;line-height:1.5;margin:.4em 0}
+h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem}
+h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--ind);display:inline-block}
+ruby rt{font-size:.62em;color:#7c6f5a}
 body.no-furigana ruby rt{display:none}
-.romaji span[data-r]{cursor:pointer;background:#eee;border-radius:6px;padding:0 .4em;margin:0 .1em}
-.romaji span[data-r].peeked{background:#d9ecff}
-.quiz .ans{display:none;background:#f6f6f6;padding:.5rem;border-radius:8px}
-.quiz.answered .ans{display:block}
-.opt{display:block;width:100%;text-align:left;margin:.3rem 0;background:#fff}
-.opt.correct{background:#dff0d8;border-color:#5cb85c}
-.opt.wrong{background:#f2dede;border-color:#d9534f}
-.feedback{display:none;background:#f6f6f6;padding:.5rem;border-radius:8px;margin-top:.5rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:0 1px 2px rgba(30,20,0,.05)}
+.small{color:var(--mut);font-size:.85em}
+button{padding:.4rem .9rem;border-radius:999px;border:1px solid #d6cfbd;background:#fff;cursor:pointer;font-size:.9rem}
+button:hover{border-color:var(--ind);color:var(--ind)}
+button.primary{background:var(--ind);border-color:var(--ind);color:#fff;font-weight:600}
+button.primary:hover{filter:brightness(1.05);color:#fff}
+#snippet p{font-size:1.25rem;line-height:2.4;margin:.4em 0}
+.romaji span[data-r]{cursor:pointer;background:var(--ind-soft);border:1px solid #c7d2fe;border-radius:8px;padding:0 .45em;margin:0 .12em}
+.romaji span[data-r].peeked{background:#dbeafe}
+/* quiz cards */
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;margin:14px 0;box-shadow:0 2px 8px rgba(60,40,0,.06)}
+.q-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem}
+.q-num{background:var(--ind);color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
+.q-pick{color:var(--mut);font-size:.8rem;border:1px dashed #c9c0aa;border-radius:999px;padding:.05rem .6rem}
+.q-text{font-size:1.15rem;margin:.3em 0}
+.opt{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;margin:.45rem 0;background:#fff;border:1.5px solid #ddd6c4;border-radius:12px;padding:.55rem .7rem;font-size:1.05rem;line-height:2}
+.opt::before{content:"";flex:0 0 auto;width:18px;height:18px;border-radius:50%;border:2px solid #b8ad90;margin-top:.55em}
+.opt:hover{border-color:var(--ind);background:#fbf9ff}
+.opt.picked-wrong{border-color:#f87171;background:var(--red-bg)}
+.opt.picked-wrong::before{border-color:#ef4444;background:#ef4444;box-shadow:inset 0 0 0 3px #fff}
+.opt.solved{border-color:#86efac;background:var(--green-bg)}
+.opt.solved::before{border-color:#22c55e;background:#22c55e;box-shadow:inset 0 0 0 3px #fff}
+.opt:disabled{opacity:1;cursor:default}
+.feedback{display:none;border-radius:12px;padding:.6rem .8rem;margin-top:.6rem;font-size:.95rem;line-height:1.8}
 .feedback.show{display:block}
-.mini{font-size:.8em;margin-left:.4rem}
-.r-text,.e-text{display:none;background:#fafafa;padding:.3rem .5rem;border-radius:6px;margin:.2rem 0}
+.feedback.hint{background:var(--amber-bg);border:1px solid #fcd34d;color:var(--amber)}
+.feedback.praise{background:var(--green-bg);border:1px solid #86efac;color:var(--green)}
+.mini{font-size:.75em;margin-left:.4rem;padding:.2rem .6rem}
+.r-text,.e-text{display:none;background:#f8fafc;border:1px dashed #cbd5e1;padding:.3rem .6rem;border-radius:8px;margin:.25rem 0;font-size:.9rem;line-height:1.9}
 .r-text.show,.e-text.show{display:block}
-button{padding:.4rem .8rem;border-radius:8px;border:1px solid #ccc;cursor:pointer}
-.small{color:#666;font-size:.9em}
-#saved{color:green;font-weight:bold}
-textarea,input[type=text]{width:100%;padding:.5rem;font-size:1rem}
+#saved{color:var(--green);font-weight:bold}
+textarea{width:100%;padding:.6rem;font-size:1rem;border-radius:12px;border:1px solid var(--line)}
+details.card summary{cursor:pointer;font-weight:600}
 </style>
 </head>
 <body>
 <h1>{{TITLE_RUBY}}</h1>
 <p class="small">Source: <a href="{{URL}}">{{SOURCE}}</a> · {{DATE}} · hat: {{HAT}} {{SYNTHETIC}}</p>
-<!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby> furigana (toggle covers all). TRIVIA/TRIVIA_MORE/DIALECT = English only. -->
+<!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby>Kanji<rt>(reading)</rt></ruby>. TRIVIA/DIALECT/feedback = English only. Wrong pick NEVER reveals correct; retry allowed. -->
 
-<h2>1. Snippet</h2>
+<h2>Read</h2>
+<div class="card">
 <button id="furiganaBtn">FURIGANA: ON</button>
 <div id="snippet">{{SNIPPET_RUBY}}</div>
+</div>
 
-<h2>2. Romaji (hidden)</h2>
+<h2>Sound it out</h2>
+<div class="card">
 <button id="romajiAll">SHOW ALL</button>
 <div class="romaji" id="romaji">{{ROMAJI_TOKENS}}</div>
+</div>
 
-<h2>3. Quiz (5 max)</h2>
+<h2>Quiz — tap one answer per card</h2>
 <div id="quiz">{{QUIZ_HTML}}</div>
 
-<h2>4. Trivia</h2>
-<div>{{TRIVIA}}</div>
+<h2>Trivia</h2>
+<div class="card">{{TRIVIA}}
 <details><summary>TELL ME MORE</summary><div>{{TRIVIA_MORE}}</div></details>
+</div>
 
-<h2>5. Difficulty notes</h2>
-<div>{{DIFFICULTY}}</div>
+<h2>Difficulty notes</h2>
+<div class="card">{{DIFFICULTY}}</div>
 
-<h2>6. Dialect notes (Standard ⇄ Kansai)</h2>
-<div>{{DIALECT}}</div>
+<h2>Dialect notes</h2>
+<div class="card">{{DIALECT}}</div>
 
-<h2>7. Finish</h2>
+<h2>Finish</h2>
+<div class="card">
 <label>Comments (how did it go?): <textarea id="comments" rows="3"></textarea></label><br><br>
-<button id="finish">FINISH — save</button> <span id="saved"></span>
-<!-- NO try-it/sentence box (writing removed). FINISH posts picked{} + auto signals only. -->
+<button id="finish" class="primary">FINISH — save</button> <span id="saved"></span>
+</div>
+<!-- NO try-it/sentence box. FINISH posts picked{} + attempts + auto signals. -->
 
 <script>
 const t0 = Date.now();
@@ -67,7 +96,6 @@ btn.onclick = () => {
   furiganaState = document.body.classList.contains('no-furigana') ? 'OFF' : 'ON';
   btn.textContent = 'FURIGANA: ' + furiganaState;
 };
-const romaji = document.getElementById('romaji');
 document.querySelectorAll('#romaji span[data-r]').forEach(s => {
   s.textContent = '▪';
   s.onclick = () => {
@@ -85,33 +113,49 @@ document.getElementById('romajiAll').onclick = (e) => {
     if (showAll) s.classList.add('peeked');
   });
 };
-document.querySelectorAll('.quiz').forEach(q => {
+document.querySelectorAll('.quiz').forEach((q, qi) => {
   const correct = parseInt(q.dataset.correct, 10);
   const fb = q.querySelector('.feedback');
-  const hint = q.dataset.hint || 'Try again — re-read the snippet lines.';
+  const hint = q.dataset.hint || 'Not that one — re-read the snippet and try another.';
   const praise = q.dataset.praise || 'Correct.';
-  // per-item Romaji/English toggles
+  q.dataset.attempts = '0';
   q.querySelectorAll('[data-toggle]').forEach(b => {
     b.onclick = (e) => { e.stopPropagation(); const t = q.querySelector('#' + b.dataset.toggle); if (t) t.classList.toggle('show'); };
   });
-  // clickable options
   q.querySelectorAll('.opt').forEach((b, i) => {
     b.onclick = () => {
-      q.querySelectorAll('.opt').forEach(x => x.classList.remove('correct','wrong'));
-      if (i === correct) { b.classList.add('correct'); fb.textContent = '✓ ' + praise; }
-      else { b.classList.add('wrong'); q.querySelectorAll('.opt')[correct].classList.add('correct'); fb.textContent = '✗ Hint: ' + hint; }
-      fb.classList.add('show');
-      q.dataset.picked = String(i);
+      if (q.dataset.solved === '1') return;
+      if (i === correct) {
+        const n = parseInt(q.dataset.attempts, 10);
+        b.classList.add('solved');
+        q.querySelectorAll('.opt').forEach(x => { if (x !== b) x.disabled = true; });
+        fb.className = 'feedback show praise';
+        fb.textContent = (n > 0 ? '✓ Got it after ' + (n+1) + ' tries. ' : '✓ ') + praise;
+        q.dataset.solved = '1';
+        q.dataset.picked = String(i);
+      } else {
+        q.dataset.attempts = String(parseInt(q.dataset.attempts, 10) + 1);
+        b.classList.add('picked-wrong');
+        b.disabled = true;
+        fb.className = 'feedback show hint';
+        fb.textContent = '✗ Not that one (' + q.dataset.attempts + ' miss' + (q.dataset.attempts === '1' ? '' : 'es') + '). Hint: ' + hint;
+        q.dataset.picked = String(i);
+      }
     };
   });
 });
 document.getElementById('finish').onclick = async () => {
-  const picked = {};
+  const picked = {}, attempts = {};
   let ok = 0, total = 0;
-  document.querySelectorAll('.quiz').forEach((q, i) => { total++; const p = q.dataset.picked; if (p !== undefined) { picked['Q'+(i+1)] = p; if (parseInt(p,10) === parseInt(q.dataset.correct,10)) ok++; } });
+  document.querySelectorAll('.quiz').forEach((q, i) => {
+    total++;
+    if (q.dataset.picked !== undefined) picked['Q'+(i+1)] = q.dataset.picked;
+    attempts['Q'+(i+1)] = q.dataset.attempts || '0';
+    if (q.dataset.solved === '1') ok++;
+  });
   const body = {
     lesson: '{{LESSON_ID}}',
-    picked, score: ok + '/' + total,
+    picked, attempts, score: ok + '/' + total,
     comments: document.getElementById('comments').value,
     peeks, furigana: furiganaState,
     seconds: Math.round((Date.now()-t0)/1000)

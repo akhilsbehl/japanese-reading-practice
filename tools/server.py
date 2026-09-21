@@ -1,6 +1,6 @@
 """server.py — serve lessons + save memory. No deps.
 Run: python tools/server.py [--port 8000]
-POST /api/save {lesson,picked{},score,comments,peeks,furigana,seconds}
+POST /api/save {lesson,picked{},attempts{},score,comments,peeks,furigana,seconds}
  -> memory/lesson-<id>.md + patch memory/global.md (no sentence/writing field)
 """
 import argparse, json, os, datetime
@@ -19,13 +19,13 @@ class H(SimpleHTTPRequestHandler):
         data = json.loads(self.rfile.read(n) or b"{}")
         lid = re.sub(r"[^0-9A-Za-z\-_]", "", data.get("lesson", datetime.date.today().isoformat())) or datetime.date.today().isoformat()
         mem = os.path.join(ROOT, "memory", f"lesson-{lid}.md")
-        body = f"# lesson {lid}\ndate: {datetime.date.today().isoformat()}\nscore: {data.get('score','')}\npicked: {json.dumps(data.get('picked',{}), ensure_ascii=False)}\npeeks: {', '.join(data.get('peeks',[]))}\nfurigana: {data.get('furigana','')}\nseconds: {data.get('seconds','')}\n\ncomments: {data.get('comments','')}\n"
+        body = f"# lesson {lid}\ndate: {datetime.date.today().isoformat()}\nscore: {data.get('score','')}\npicked: {json.dumps(data.get('picked',{}), ensure_ascii=False)}\nattempts: {json.dumps(data.get('attempts',{}), ensure_ascii=False)}\npeeks: {', '.join(data.get('peeks',[]))}\nfurigana: {data.get('furigana','')}\nseconds: {data.get('seconds','')}\n\ncomments: {data.get('comments','')}\n"
         os.makedirs(os.path.join(ROOT, "memory"), exist_ok=True)
         with open(mem, "w", encoding="utf-8") as f: f.write(body)
         # append weak to global (crude, agent refines later)
         gpath = os.path.join(ROOT, "memory", "global.md")
         with open(gpath, "a", encoding="utf-8") as f:
-            f.write(f"\n- {lid}: score {data.get('score','')} picked {json.dumps(data.get('picked',{}), ensure_ascii=False)} peeks {data.get('peeks',[])}")
+            f.write(f"\n- {lid}: score {data.get('score','')} picked {json.dumps(data.get('picked',{}), ensure_ascii=False)} attempts {json.dumps(data.get('attempts',{}), ensure_ascii=False)} peeks {data.get('peeks',[])}")
         out = json.dumps({"ok": True, "file": mem}).encode()
         self.send_response(200); self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(out))); self.end_headers()
