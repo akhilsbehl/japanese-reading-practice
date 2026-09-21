@@ -31,9 +31,9 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 ## Template contract
 - Title: `<h1>{{TITLE_RUBY}}</h1>` (ruby required). Keep `<title>` plain-text fallback.
 - Furigana: `<ruby>漢字<rt>(かんじ)</rt></ruby>` — parens REQUIRED inside every `rt` so single-kanji boundaries read clearly, global toggle hides ALL `rt` on page (title+snippet+quiz).
-- Romaji: snippet token spans `data-r="watashi"`, hidden as `▪` until tap; SHOW ALL/HIDE ALL. Quiz Romaji/English: per-item toggles under each stem/option (hidden divs), never overlay.
+- Romaji INLINE (no separate section): each snippet word is `<span class="w" data-jp data-ro><ruby>Kanji<rt>(reading)</rt></ruby><span class="ro">romaji</span></span>` — romaji under the word, hidden by default, global ROMAJI toggle + tap word to peek. Quiz Romaji/English: per-item toggles under each stem/option (hidden divs), never overlay.
 - Quiz: 4 MCQ max, options are radio-style `.opt` buttons in segregated `.quiz` cards; FINISH POSTs JSON `{lesson, picked{}, attempts{}, score, comments, peeks[], furigana, seconds}` (no sentence).
-- Track: click on romaji token logs peek; toggle logs furigana state; timer logs seconds.
+- Track: tap on snippet word logs peek; toggle logs furigana/romaji state; timer logs seconds.
 
 ## Randomness (mandatory — never let the LLM roll)
 - All source picks and MCQ shuffles MUST use `tools/randomize.py` (OS entropy via `secrets`). LLM guessing, "pick one", or hardcoding first entry is banned.

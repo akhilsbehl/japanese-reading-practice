@@ -5,19 +5,27 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{TITLE_PLAIN}} — Real Japanese Lesson</title>
 <style>
-:root{--ink:#1f2937;--mut:#6b7280;--bg:#faf8f2;--card:#ffffff;--line:#e8e2d5;--ind:#4f46e5;--ind-soft:#eef2ff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
+:root{--ink:#0f172a;--mut:#64748b;--bg:#f1f5f9;--card:#ffffff;--line:#e2e8f0;--acc:#0e7490;--acc-soft:#ecfeff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
 *{box-sizing:border-box}
 body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:780px;margin:0 auto;padding:24px 18px 64px;line-height:2;color:var(--ink);background:var(--bg)}
 h1{font-size:1.9rem;line-height:1.5;margin:.4em 0}
-h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem}
-h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--ind);display:inline-block}
-ruby rt{font-size:.62em;color:#7c6f5a}
+h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem;color:var(--ink)}
+h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--acc);display:inline-block}
+ruby rt{font-size:.62em;color:var(--mut)}
 body.no-furigana ruby rt{display:none}
+/* inline word units: Japanese on top (furigana above), romaji below, hidden by default */
+#snippet p{font-size:1.25rem;line-height:2.2;margin:.4em 0}
+.w{display:inline-flex;flex-direction:column;align-items:center;margin:.1em .18em .3em;cursor:pointer;vertical-align:bottom;border-radius:8px;padding:0 .1em}
+.w:hover{background:#f8fafc}
+.w .ro{display:none;font-size:.68rem;line-height:1.4;color:var(--acc);font-family:ui-monospace,Menlo,Consolas,monospace}
+body.romaji-on .w .ro{display:block}
+.w.show-ro .ro{display:block}
+.romaji-legend{color:var(--mut);font-size:.8rem}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:0 1px 2px rgba(30,20,0,.05)}
 .small{color:var(--mut);font-size:.85em}
-button{padding:.4rem .9rem;border-radius:999px;border:1px solid #d6cfbd;background:#fff;cursor:pointer;font-size:.9rem}
-button:hover{border-color:var(--ind);color:var(--ind)}
-button.primary{background:var(--ind);border-color:var(--ind);color:#fff;font-weight:600}
+button{padding:.4rem .9rem;border-radius:999px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:.9rem;color:var(--ink)}
+button:hover{border-color:var(--acc);color:var(--acc)}
+button.primary{background:#0f172a;border-color:#0f172a;color:#fff;font-weight:600}
 button.primary:hover{filter:brightness(1.05);color:#fff}
 #snippet p{font-size:1.25rem;line-height:2.4;margin:.4em 0}
 .romaji span[data-r]{cursor:pointer;background:var(--ind-soft);border:1px solid #c7d2fe;border-radius:8px;padding:0 .45em;margin:0 .12em}
@@ -25,7 +33,7 @@ button.primary:hover{filter:brightness(1.05);color:#fff}
 /* quiz cards */
 .quiz{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;margin:14px 0;box-shadow:0 2px 8px rgba(60,40,0,.06)}
 .q-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem}
-.q-num{background:var(--ind);color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
+.q-num{background:#0f172a;color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
 .q-pick{color:var(--mut);font-size:.8rem;border:1px dashed #c9c0aa;border-radius:999px;padding:.05rem .6rem}
 .q-text{font-size:1.15rem;margin:.3em 0}
 .opt{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;margin:.45rem 0;background:#fff;border:1.5px solid #ddd6c4;border-radius:12px;padding:.55rem .7rem;font-size:1.05rem;line-height:2}
@@ -53,16 +61,12 @@ details.card summary{cursor:pointer;font-weight:600}
 <p class="small">Source: <a href="{{URL}}">{{SOURCE}}</a> · {{DATE}} · hat: {{HAT}} {{SYNTHETIC}}</p>
 <!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby>Kanji<rt>(reading)</rt></ruby>. TRIVIA/DIALECT/feedback = English only. Wrong pick NEVER reveals correct; retry allowed. -->
 
-<h2>Read</h2>
+<h2>Read — tap a word for its romaji</h2>
 <div class="card">
 <button id="furiganaBtn">FURIGANA: ON</button>
-<div id="snippet">{{SNIPPET_RUBY}}</div>
-</div>
-
-<h2>Sound it out</h2>
-<div class="card">
-<button id="romajiAll">SHOW ALL</button>
-<div class="romaji" id="romaji">{{ROMAJI_TOKENS}}</div>
+<button id="romajiBtn">ROMAJI: OFF</button>
+<span class="romaji-legend">romaji hidden by default</span>
+<div id="snippet">{{SNIPPET_WORDS}}</div>
 </div>
 
 <h2>Quiz — tap one answer per card</h2>
@@ -96,22 +100,19 @@ btn.onclick = () => {
   furiganaState = document.body.classList.contains('no-furigana') ? 'OFF' : 'ON';
   btn.textContent = 'FURIGANA: ' + furiganaState;
 };
-document.querySelectorAll('#romaji span[data-r]').forEach(s => {
-  s.textContent = '▪';
-  s.onclick = () => {
-    s.classList.add('peeked');
-    s.textContent = s.dataset.r;
-    peeks.push(s.dataset.w || s.dataset.r);
+<!-- inline romaji lives under each word in #snippet; quiz toggles handled per-card below -->
+document.querySelectorAll('#snippet .w').forEach(w => {
+  w.onclick = () => {
+    w.classList.toggle('show-ro');
+    peeks.push(w.dataset.jp || w.dataset.ro || 'word');
   };
 });
-let showAll = false;
-document.getElementById('romajiAll').onclick = (e) => {
-  showAll = !showAll;
-  e.target.textContent = showAll ? 'HIDE ALL' : 'SHOW ALL';
-  document.querySelectorAll('#romaji span[data-r]').forEach(s => {
-    s.textContent = showAll ? s.dataset.r : '▪';
-    if (showAll) s.classList.add('peeked');
-  });
+let romajiOn = false;
+const rbtn = document.getElementById('romajiBtn');
+if (rbtn) rbtn.onclick = () => {
+  romajiOn = !romajiOn;
+  document.body.classList.toggle('romaji-on', romajiOn);
+  rbtn.textContent = 'ROMAJI: ' + (romajiOn ? 'ON' : 'OFF');
 };
 document.querySelectorAll('.quiz').forEach((q, qi) => {
   const correct = parseInt(q.dataset.correct, 10);

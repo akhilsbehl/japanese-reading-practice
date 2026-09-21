@@ -5,19 +5,27 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>台風25号、関東に最接近 — Real Japanese Lesson</title>
 <style>
-:root{--ink:#1f2937;--mut:#6b7280;--bg:#faf8f2;--card:#ffffff;--line:#e8e2d5;--ind:#4f46e5;--ind-soft:#eef2ff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
+:root{--ink:#0f172a;--mut:#64748b;--bg:#f1f5f9;--card:#ffffff;--line:#e2e8f0;--acc:#0e7490;--acc-soft:#ecfeff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
 *{box-sizing:border-box}
 body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:780px;margin:0 auto;padding:24px 18px 64px;line-height:2;color:var(--ink);background:var(--bg)}
 h1{font-size:1.9rem;line-height:1.5;margin:.4em 0}
-h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem}
-h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--ind);display:inline-block}
-ruby rt{font-size:.62em;color:#7c6f5a}
+h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem;color:var(--ink)}
+h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--acc);display:inline-block}
+ruby rt{font-size:.62em;color:var(--mut)}
 body.no-furigana ruby rt{display:none}
+/* inline word units: Japanese on top (furigana above), romaji below, hidden by default */
+#snippet p{font-size:1.25rem;line-height:2.2;margin:.4em 0}
+.w{display:inline-flex;flex-direction:column;align-items:center;margin:.1em .18em .3em;cursor:pointer;vertical-align:bottom;border-radius:8px;padding:0 .1em}
+.w:hover{background:#f8fafc}
+.w .ro{display:none;font-size:.68rem;line-height:1.4;color:var(--acc);font-family:ui-monospace,Menlo,Consolas,monospace}
+body.romaji-on .w .ro{display:block}
+.w.show-ro .ro{display:block}
+.romaji-legend{color:var(--mut);font-size:.8rem}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:0 1px 2px rgba(30,20,0,.05)}
 .small{color:var(--mut);font-size:.85em}
-button{padding:.4rem .9rem;border-radius:999px;border:1px solid #d6cfbd;background:#fff;cursor:pointer;font-size:.9rem}
-button:hover{border-color:var(--ind);color:var(--ind)}
-button.primary{background:var(--ind);border-color:var(--ind);color:#fff;font-weight:600}
+button{padding:.4rem .9rem;border-radius:999px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:.9rem;color:var(--ink)}
+button:hover{border-color:var(--acc);color:var(--acc)}
+button.primary{background:#0f172a;border-color:#0f172a;color:#fff;font-weight:600}
 button.primary:hover{filter:brightness(1.05);color:#fff}
 #snippet p{font-size:1.25rem;line-height:2.4;margin:.4em 0}
 .romaji span[data-r]{cursor:pointer;background:var(--ind-soft);border:1px solid #c7d2fe;border-radius:8px;padding:0 .45em;margin:0 .12em}
@@ -25,7 +33,7 @@ button.primary:hover{filter:brightness(1.05);color:#fff}
 /* quiz cards */
 .quiz{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;margin:14px 0;box-shadow:0 2px 8px rgba(60,40,0,.06)}
 .q-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem}
-.q-num{background:var(--ind);color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
+.q-num{background:#0f172a;color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
 .q-pick{color:var(--mut);font-size:.8rem;border:1px dashed #c9c0aa;border-radius:999px;padding:.05rem .6rem}
 .q-text{font-size:1.15rem;margin:.3em 0}
 .opt{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;margin:.45rem 0;background:#fff;border:1.5px solid #ddd6c4;border-radius:12px;padding:.55rem .7rem;font-size:1.05rem;line-height:2}
@@ -53,19 +61,15 @@ details.card summary{cursor:pointer;font-weight:600}
 <p class="small">Source: <a href="https://news.yahoo.co.jp/articles/ccd1611c760303c8b2c06bed73b09afc970e5ab1">日テレNEWS NNN via Yahoo!ニュース</a> · 2026-09-21 · hat: tokyo_life </p>
 <!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby>Kanji<rt>(reading)</rt></ruby>. TRIVIA/DIALECT/feedback = English only. Wrong pick NEVER reveals correct; retry allowed. -->
 
-<h2>Read</h2>
+<h2>Read — tap a word for its romaji</h2>
 <div class="card">
 <button id="furiganaBtn">FURIGANA: ON</button>
-<div id="snippet"><p>21<ruby>日<rt>(にち)</rt></ruby>(<ruby>月<rt>(げつ)</rt></ruby>)は<ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>が<ruby>接近<rt>(せっきん)</rt></ruby>する<ruby>関東<rt>(かんとう)</rt></ruby>で<ruby>大雨<rt>(おおあめ)</rt></ruby>となっています。</p>
-<p><ruby>夜<rt>(よる)</rt></ruby>にかけてが<ruby>大雨<rt>(おおあめ)</rt></ruby>・<ruby>大荒<rt>(おおあ)</rt></ruby>れのピークとなりそうです。</p>
-<p><ruby>台風<rt>(たいふう)</rt></ruby>25<ruby>号<rt>(ごう)</rt></ruby>は21<ruby>日<rt>(にち)</rt></ruby><ruby>夕方<rt>(ゆうがた)</rt></ruby><ruby>現在<rt>(げんざい)</rt></ruby>、<ruby>関東<rt>(かんとう)</rt></ruby>に<ruby>最<rt>(もっと)</rt></ruby>も<ruby>接近<rt>(せっきん)</rt></ruby>しています。</p>
-<p><ruby>伊豆諸島<rt>(いずしょとう)</rt></ruby>の<ruby>大島町<rt>(おおしまちょう)</rt></ruby>にはレベル5<ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby>が<ruby>発表<rt>(はっぴょう)</rt></ruby>されました。</p></div>
-</div>
-
-<h2>Sound it out</h2>
-<div class="card">
-<button id="romajiAll">SHOW ALL</button>
-<div class="romaji" id="romaji"><span data-r="nijuuichinichi" data-w="21日">▪</span> <span data-r="getsu" data-w="月">▪</span> <span data-r="wa" data-w="は">▪</span> <span data-r="taifuu" data-w="台風">▪</span> <span data-r="nijuu-go" data-w="25号">▪</span> <span data-r="ga" data-w="が">▪</span> <span data-r="sekkin" data-w="接近">▪</span> <span data-r="suru" data-w="する">▪</span> <span data-r="kantou" data-w="関東">▪</span> <span data-r="de" data-w="で">▪</span> <span data-r="ooame" data-w="大雨">▪</span> <span data-r="to" data-w="と">▪</span> <span data-r="natteimasu" data-w="なっています">▪</span> <span data-r="yoru" data-w="夜">▪</span> <span data-r="nikakete" data-w="にかけて">▪</span> <span data-r="ooare" data-w="大荒れ">▪</span> <span data-r="piiku" data-w="ピーク">▪</span> <span data-r="yuugata" data-w="夕方">▪</span> <span data-r="genzai" data-w="現在">▪</span> <span data-r="mottomo" data-w="最も">▪</span> <span data-r="izushotou" data-w="伊豆諸島">▪</span> <span data-r="ooshimachou" data-w="大島町">▪</span> <span data-r="doshasaigaitokubetsukeihou" data-w="土砂災害特別警報">▪</span> <span data-r="happyou" data-w="発表">▪</span></div>
+<button id="romajiBtn">ROMAJI: OFF</button>
+<span class="romaji-legend">romaji hidden by default</span>
+<div id="snippet"><p><span class="w" data-jp="21<ruby>日<rt>(にち)</rt></ruby>" data-ro="nijuuichinichi">21<ruby>日<rt>(にち)</rt></ruby><span class="ro">nijuuichinichi</span></span> <span class="w" data-jp="(<ruby>月<rt>(げつ)</rt></ruby>)" data-ro="getsu">(<ruby>月<rt>(げつ)</rt></ruby>)<span class="ro">getsu</span></span> <span class="w" data-jp="は" data-ro="wa">は<span class="ro">wa</span></span> <span class="w" data-jp="<ruby>台風<rt>(たいふう)</rt></ruby>" data-ro="taifuu"><ruby>台風<rt>(たいふう)</rt></ruby><span class="ro">taifuu</span></span> <span class="w" data-jp="25<ruby>号<rt>(ごう)</rt></ruby>" data-ro="nijuugo-gou">25<ruby>号<rt>(ごう)</rt></ruby><span class="ro">nijuugo-gou</span></span> <span class="w" data-jp="が" data-ro="ga">が<span class="ro">ga</span></span> <span class="w" data-jp="<ruby>接近<rt>(せっきん)</rt></ruby>" data-ro="sekkin"><ruby>接近<rt>(せっきん)</rt></ruby><span class="ro">sekkin</span></span> <span class="w" data-jp="する" data-ro="suru">する<span class="ro">suru</span></span> <span class="w" data-jp="<ruby>関東<rt>(かんとう)</rt></ruby>" data-ro="kantou"><ruby>関東<rt>(かんとう)</rt></ruby><span class="ro">kantou</span></span> <span class="w" data-jp="で" data-ro="de">で<span class="ro">de</span></span> <span class="w" data-jp="<ruby>大雨<rt>(おおあめ)</rt></ruby>" data-ro="ooame"><ruby>大雨<rt>(おおあめ)</rt></ruby><span class="ro">ooame</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="なっています" data-ro="natteimasu">なっています<span class="ro">natteimasu</span></span>。</p>
+<p><span class="w" data-jp="<ruby>夜<rt>(よる)</rt></ruby>" data-ro="yoru"><ruby>夜<rt>(よる)</rt></ruby><span class="ro">yoru</span></span> <span class="w" data-jp="にかけて" data-ro="nikakete">にかけて<span class="ro">nikakete</span></span> <span class="w" data-jp="が" data-ro="ga">が<span class="ro">ga</span></span> <span class="w" data-jp="<ruby>大雨<rt>(おおあめ)</rt></ruby>" data-ro="ooame"><ruby>大雨<rt>(おおあめ)</rt></ruby><span class="ro">ooame</span></span> <span class="w" data-jp="・" data-ro="-">・<span class="ro">-</span></span> <span class="w" data-jp="<ruby>大荒<rt>(おおあ)</rt></ruby>れ" data-ro="ooare"><ruby>大荒<rt>(おおあ)</rt></ruby>れ<span class="ro">ooare</span></span> <span class="w" data-jp="の" data-ro="no">の<span class="ro">no</span></span> <span class="w" data-jp="ピーク" data-ro="piiku">ピーク<span class="ro">piiku</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="なり" data-ro="nari">なり<span class="ro">nari</span></span> <span class="w" data-jp="そう" data-ro="sou">そう<span class="ro">sou</span></span> <span class="w" data-jp="です" data-ro="desu">です<span class="ro">desu</span></span>。</p>
+<p><span class="w" data-jp="<ruby>台風<rt>(たいふう)</rt></ruby>" data-ro="taifuu"><ruby>台風<rt>(たいふう)</rt></ruby><span class="ro">taifuu</span></span> <span class="w" data-jp="25<ruby>号<rt>(ごう)</rt></ruby>" data-ro="nijuugo-gou">25<ruby>号<rt>(ごう)</rt></ruby><span class="ro">nijuugo-gou</span></span> <span class="w" data-jp="は" data-ro="wa">は<span class="ro">wa</span></span> <span class="w" data-jp="21<ruby>日<rt>(にち)</rt></ruby>" data-ro="nijuuichinichi">21<ruby>日<rt>(にち)</rt></ruby><span class="ro">nijuuichinichi</span></span> <span class="w" data-jp="<ruby>夕方<rt>(ゆうがた)</rt></ruby>" data-ro="yuugata"><ruby>夕方<rt>(ゆうがた)</rt></ruby><span class="ro">yuugata</span></span> <span class="w" data-jp="<ruby>現在<rt>(げんざい)</rt></ruby>" data-ro="genzai"><ruby>現在<rt>(げんざい)</rt></ruby><span class="ro">genzai</span></span> <span class="w" data-jp="、" data-ro=",">、<span class="ro">,</span></span> <span class="w" data-jp="<ruby>関東<rt>(かんとう)</rt></ruby>" data-ro="kantou"><ruby>関東<rt>(かんとう)</rt></ruby><span class="ro">kantou</span></span> <span class="w" data-jp="に" data-ro="ni">に<span class="ro">ni</span></span> <span class="w" data-jp="<ruby>最<rt>(もっと)</rt></ruby>も" data-ro="mottomo"><ruby>最<rt>(もっと)</rt></ruby>も<span class="ro">mottomo</span></span> <span class="w" data-jp="<ruby>接近<rt>(せっきん)</rt></ruby>" data-ro="sekkin"><ruby>接近<rt>(せっきん)</rt></ruby><span class="ro">sekkin</span></span> <span class="w" data-jp="しています" data-ro="shiteimasu">しています<span class="ro">shiteimasu</span></span>。</p>
+<p><span class="w" data-jp="<ruby>伊豆諸島<rt>(いずしょとう)</rt></ruby>" data-ro="izushotou"><ruby>伊豆諸島<rt>(いずしょとう)</rt></ruby><span class="ro">izushotou</span></span> <span class="w" data-jp="の" data-ro="no">の<span class="ro">no</span></span> <span class="w" data-jp="<ruby>大島町<rt>(おおしまちょう)</rt></ruby>" data-ro="ooshimachou"><ruby>大島町<rt>(おおしまちょう)</rt></ruby><span class="ro">ooshimachou</span></span> <span class="w" data-jp="に" data-ro="ni">に<span class="ro">ni</span></span> <span class="w" data-jp="は" data-ro="wa">は<span class="ro">wa</span></span> <span class="w" data-jp="レベル5" data-ro="reberu-faibu">レベル5<span class="ro">reberu-faibu</span></span> <span class="w" data-jp="<ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby>" data-ro="doshasaigaitokubetsukeihou"><ruby>土砂災害特別警報<rt>(どしゃさいがいとくべつけいほう)</rt></ruby><span class="ro">doshasaigaitokubetsukeihou</span></span> <span class="w" data-jp="が" data-ro="ga">が<span class="ro">ga</span></span> <span class="w" data-jp="<ruby>発表<rt>(はっぴょう)</rt></ruby>" data-ro="happyou"><ruby>発表<rt>(はっぴょう)</rt></ruby><span class="ro">happyou</span></span> <span class="w" data-jp="されました" data-ro="saremashita">されました<span class="ro">saremashita</span></span>。</p></div>
 </div>
 
 <h2>Quiz — tap one answer per card</h2>
@@ -142,22 +146,19 @@ btn.onclick = () => {
   furiganaState = document.body.classList.contains('no-furigana') ? 'OFF' : 'ON';
   btn.textContent = 'FURIGANA: ' + furiganaState;
 };
-document.querySelectorAll('#romaji span[data-r]').forEach(s => {
-  s.textContent = '▪';
-  s.onclick = () => {
-    s.classList.add('peeked');
-    s.textContent = s.dataset.r;
-    peeks.push(s.dataset.w || s.dataset.r);
+<!-- inline romaji lives under each word in #snippet; quiz toggles handled per-card below -->
+document.querySelectorAll('#snippet .w').forEach(w => {
+  w.onclick = () => {
+    w.classList.toggle('show-ro');
+    peeks.push(w.dataset.jp || w.dataset.ro || 'word');
   };
 });
-let showAll = false;
-document.getElementById('romajiAll').onclick = (e) => {
-  showAll = !showAll;
-  e.target.textContent = showAll ? 'HIDE ALL' : 'SHOW ALL';
-  document.querySelectorAll('#romaji span[data-r]').forEach(s => {
-    s.textContent = showAll ? s.dataset.r : '▪';
-    if (showAll) s.classList.add('peeked');
-  });
+let romajiOn = false;
+const rbtn = document.getElementById('romajiBtn');
+if (rbtn) rbtn.onclick = () => {
+  romajiOn = !romajiOn;
+  document.body.classList.toggle('romaji-on', romajiOn);
+  rbtn.textContent = 'ROMAJI: ' + (romajiOn ? 'ON' : 'OFF');
 };
 document.querySelectorAll('.quiz').forEach((q, qi) => {
   const correct = parseInt(q.dataset.correct, 10);
