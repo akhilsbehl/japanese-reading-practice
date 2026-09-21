@@ -12,6 +12,14 @@ body.no-furigana ruby rt{display:none}
 .romaji span[data-r].peeked{background:#d9ecff}
 .quiz .ans{display:none;background:#f6f6f6;padding:.5rem;border-radius:8px}
 .quiz.answered .ans{display:block}
+.opt{display:block;width:100%;text-align:left;margin:.3rem 0;background:#fff}
+.opt.correct{background:#dff0d8;border-color:#5cb85c}
+.opt.wrong{background:#f2dede;border-color:#d9534f}
+.feedback{display:none;background:#f6f6f6;padding:.5rem;border-radius:8px;margin-top:.5rem}
+.feedback.show{display:block}
+.mini{font-size:.8em;margin-left:.4rem}
+.r-text,.e-text{display:none;background:#fafafa;padding:.3rem .5rem;border-radius:6px;margin:.2rem 0}
+.r-text.show,.e-text.show{display:block}
 button{padding:.4rem .8rem;border-radius:8px;border:1px solid #ccc;cursor:pointer}
 .small{color:#666;font-size:.9em}
 #saved{color:green;font-weight:bold}
@@ -45,9 +53,9 @@ textarea,input[type=text]{width:100%;padding:.5rem;font-size:1rem}
 <div>{{DIALECT}}</div>
 
 <h2>7. Finish</h2>
-<label>Your try-it sentence: <input type="text" id="sentence"></label><br><br>
 <label>Comments (how did it go?): <textarea id="comments" rows="3"></textarea></label><br><br>
 <button id="finish">FINISH — save</button> <span id="saved"></span>
+<!-- NO try-it/sentence box (writing removed). FINISH posts picked{} + auto signals only. -->
 
 <script>
 const t0 = Date.now();
@@ -78,15 +86,32 @@ document.getElementById('romajiAll').onclick = (e) => {
   });
 };
 document.querySelectorAll('.quiz').forEach(q => {
-  q.querySelector('button').onclick = () => q.classList.add('answered');
+  const correct = parseInt(q.dataset.correct, 10);
+  const fb = q.querySelector('.feedback');
+  const hint = q.dataset.hint || 'Try again — re-read the snippet lines.';
+  const praise = q.dataset.praise || 'Correct.';
+  // per-item Romaji/English toggles
+  q.querySelectorAll('[data-toggle]').forEach(b => {
+    b.onclick = (e) => { e.stopPropagation(); const t = q.querySelector('#' + b.dataset.toggle); if (t) t.classList.toggle('show'); };
+  });
+  // clickable options
+  q.querySelectorAll('.opt').forEach((b, i) => {
+    b.onclick = () => {
+      q.querySelectorAll('.opt').forEach(x => x.classList.remove('correct','wrong'));
+      if (i === correct) { b.classList.add('correct'); fb.textContent = '✓ ' + praise; }
+      else { b.classList.add('wrong'); q.querySelectorAll('.opt')[correct].classList.add('correct'); fb.textContent = '✗ Hint: ' + hint; }
+      fb.classList.add('show');
+      q.dataset.picked = String(i);
+    };
+  });
 });
 document.getElementById('finish').onclick = async () => {
-  const score = prompt('Self-score? e.g. 4/5, missed Q2', '');
-  const missed = prompt('Missed words/points (comma)?', '');
+  const picked = {};
+  let ok = 0, total = 0;
+  document.querySelectorAll('.quiz').forEach((q, i) => { total++; const p = q.dataset.picked; if (p !== undefined) { picked['Q'+(i+1)] = p; if (parseInt(p,10) === parseInt(q.dataset.correct,10)) ok++; } });
   const body = {
     lesson: '{{LESSON_ID}}',
-    score: score || '', missed: missed || '',
-    sentence: document.getElementById('sentence').value,
+    picked, score: ok + '/' + total,
     comments: document.getElementById('comments').value,
     peeks, furigana: furiganaState,
     seconds: Math.round((Date.now()-t0)/1000)

@@ -13,25 +13,26 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 3. Fetch live (NHK/Aozora/PR Times etc.). Trim to 3-5 sentences. Keep source title + URL + retrieved date.
    Fallback: other URL → other category → LLM-generated flagged `synthetic-fallback: true` (last resort).
 4. Generate readings: `python tools/reading.py --text "snippet"` → furigana segments + romaji tokens. LLM fixes Kansai/slang, marks low-conf `[?]`.
-5. Build `lessons/lesson-YYYY-MM-DD-N.html` from `template.html`: snippet ruby + romaji dots + quiz (5 max: 3 gist + 1 vocab + 1 try-it; shuffle every MCQ via `randomize.py shuffle --correct 0`) + trivia + difficulty notes ([N3]/[N2+] tags) + dialect notes (Standard ⇄ Kansai always) + FINISH (score auto + sentence box + comments box).
+5. Build `lessons/lesson-YYYY-MM-DD-N.html` from `template.html`: snippet ruby + romaji dots + quiz (4 MCQ max: 3 gist + 1 vocab, NO try-it/writing; shuffle every MCQ via `randomize.py shuffle --correct 0`; each Q has clickable options with hint/reinforcement + per-item Romaji/English toggles) + trivia (English) + difficulty notes ([N3]/[N2+] tags, English) + dialect notes (English) + FINISH (auto data + comments box only, no sentence box).
 6. Serve: `python tools/server.py` → give user `http://localhost:8000/lessons/lesson-....html`. Page POSTs to `/api/save` → writes `memory/lesson-...md` + patches `global.md`. Show `saved ✓`.
 7. Never filter typos/slang/memes/profanity. Short quotes only + attribution. Public data only.
 
 ## Memory format
-- `memory/lesson-YYYY-MM-DD-N.md`: frontmatter (date, source, url, hat, score, missed, peeks, furigana, seconds) + sentence + comments + weak+.
+- `memory/lesson-YYYY-MM-DD-N.md`: frontmatter (date, source, url, hat, score, missed, peeks, furigana, seconds) + comments + weak+. No sentence field (writing removed 2026-09-21).
 - `memory/global.md`: cumulative weak-top-5 / strong / N3 counts (rough, steering only) / last-10 sources.
 
 ## Language + furigana rules (fixed 2026-09-21)
-- Japanese WITH furigana (ruby, global ON/OFF applies to whole page): title (`{{TITLE_RUBY}}`), snippet (`{{SNIPPET_RUBY}}`), quiz questions + options + Japanese answer terms (`{{QUIZ_HTML}}` — every kanji gets `<ruby>`).
-- English ONLY (no furigana, never Japanese exercise text): trivia (`{{TRIVIA}}` + `{{TRIVIA_MORE}}`), dialect notes (`{{DIALECT}}` — explain in English, quote Japanese terms with ruby only as cited forms), section UI/labels/buttons (keep English).
+- Japanese WITH furigana (ruby, global ON/OFF applies to whole page): title (`{{TITLE_RUBY}}`), snippet (`{{SNIPPET_RUBY}}`), quiz questions + options (`{{QUIZ_HTML}}` — every kanji gets `<ruby>Kanji<rt>(reading)</rt></ruby>` with readings IN PARENS so boundaries are visible).
+- English ONLY (no furigana, never Japanese exercise text): trivia (`{{TRIVIA}}` + `{{TRIVIA_MORE}}`), dialect notes (`{{DIALECT}}`), quiz hints/reinforcement/feedback, section UI/labels/buttons (keep English).
+- Quiz interaction (no SHOW ANSWER, no try-it): each Q renders options as clickable buttons; clicking correct shows reinforcement (English), wrong shows hint (English). Each question stem AND each option has its own [Romaji] [English] toggle revealing a line under that Japanese. Romaji/English hidden by default.
 - Difficulty notes: English explanations; Japanese terms cited with ruby.
 - `tools/reading.py` must run for title, snippet, AND each quiz Japanese string before building HTML. No bare kanji in exercise zones.
 
 ## Template contract
 - Title: `<h1>{{TITLE_RUBY}}</h1>` (ruby required). Keep `<title>` plain-text fallback.
-- Furigana: `<ruby>漢字<rt>かんじ</rt></ruby>`, global toggle hides ALL `rt` on page (title+snippet+quiz).
-- Romaji: token spans `data-r="watashi"`, hidden as `▪` until tap; SHOW ALL/HIDE ALL.
-- Quiz: each Q has [SHOW ANSWER]; try-it is free text; FINISH POSTs JSON `{lesson, score, missed[], sentence, comments, peeks[], furigana, seconds}`.
+- Furigana: `<ruby>漢字<rt>(かんじ)</rt></ruby>` — parens REQUIRED inside every `rt` so single-kanji boundaries read clearly, global toggle hides ALL `rt` on page (title+snippet+quiz).
+- Romaji: snippet token spans `data-r="watashi"`, hidden as `▪` until tap; SHOW ALL/HIDE ALL. Quiz Romaji/English: per-item toggles under each stem/option (hidden divs), never overlay.
+- Quiz: 4 MCQ max, options are clickable buttons; FINISH POSTs JSON `{lesson, picked{}, score, comments, peeks[], furigana, seconds}` (no sentence).
 - Track: click on romaji token logs peek; toggle logs furigana state; timer logs seconds.
 
 ## Randomness (mandatory — never let the LLM roll)
