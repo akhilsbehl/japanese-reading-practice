@@ -16,6 +16,7 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 5. Build `lessons/lesson-YYYY-MM-DD-N.html` from `template.html`: snippet ruby + romaji dots + quiz (4 MCQ max: 3 gist + 1 vocab, NO try-it/writing; shuffle every MCQ via `randomize.py shuffle --correct 0`; each Q has clickable options with hint/reinforcement + per-item Romaji/English toggles) + trivia (English) + difficulty notes ([N3]/[N2+] tags, English) + dialect notes (English) + FINISH (auto data + comments box only, no sentence box).
 6. Serve: `python tools/server.py` → give user `http://localhost:8000/lessons/lesson-....html`. Page POSTs to `/api/save` → writes `memory/lesson-...md` + patches `global.md`. Show `saved ✓`.
 7. Never filter typos/slang/memes/profanity. Short quotes only + attribution. Public data only.
+8. Use jina_read and jina_search for retrieving the source content - avoid curl, agent_browser, or other workarounds. Create your own search/read queries.
 
 ## Memory format
 - `memory/lesson-YYYY-MM-DD-N.md`: frontmatter (date, source, url, hat, score, missed, peeks, furigana, seconds) + comments + weak+. No sentence field (writing removed 2026-09-21).
