@@ -23,7 +23,7 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 
 ## Language + furigana rules (fixed 2026-09-21)
 - Japanese WITH furigana (ruby, global ON/OFF applies to whole page): title (`{{TITLE_RUBY}}`), snippet (`{{SNIPPET_RUBY}}`), quiz questions + options (`{{QUIZ_HTML}}` — every kanji gets `<ruby>Kanji<rt>(reading)</rt></ruby>` with readings IN PARENS so boundaries are visible).
-- English ONLY (no furigana, never Japanese exercise text): trivia (`{{TRIVIA}}` + `{{TRIVIA_MORE}}`), dialect notes (`{{DIALECT}}`), quiz hints/reinforcement/feedback, section UI/labels/buttons (keep English).
+- English ONLY: trivia (`{{TRIVIA}}` + `{{TRIVIA_MORE}}`), dialect notes (`{{DIALECT}}`), translation bridge (`{{TRANSLATION}}` — faithful full-snippet translation, collapsed `<details>` AFTER snippet BEFORE quiz, open only after reading attempt), quiz hints/reinforcement/feedback, UI labels.
 - Quiz interaction (no SHOW ANSWER, no try-it, NO reveal-on-wrong): each Q is a segregated card with `Qn · tap one` header. Options are radio-style buttons; wrong pick marks ONLY that option red + English hint, keeps correct hidden, allows retry; correct pick marks green + English reinforcement and locks card. Track `attempts` per Q. Each stem + option keeps [Romaji] [English] toggles.
 - Difficulty notes: English explanations; Japanese terms cited with ruby.
 - `tools/reading.py` must run for title, snippet, AND each quiz Japanese string before building HTML. No bare kanji in exercise zones.
