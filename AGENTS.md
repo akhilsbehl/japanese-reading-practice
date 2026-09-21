@@ -1,6 +1,6 @@
 # reading-real-content — Real Japanese Lesson Builder
 
-Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-heavy 60/20/20. Raw, no filter. Agent memory drives recall to N3.
+Consumer lock: small HTML lessons (~10 min) from LOCAL corpus (tinystories + aozora chunks in `sources/`). Raw, no filter. Agent memory drives recall to N3.
 
 ## Commands
 - `give me a lesson` → build + serve lesson (agent runs `python tools/server.py --new` or manual flow below).
@@ -9,18 +9,16 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 
 ## Build flow (every lesson)
 1. Read `memory/global.md` + latest 2-3 `memory/lesson-*.md` (if exist). Note top weak item (max 1 resurface/lesson).
-2. Roll hat with tool: `python tools/randomize.py pick-source` (weighted 60/20/20, auto-avoids last-10). Never hand-pick or LLM-pick. Record returned `hat` + `entry.url`.
-3. Fetch live (NHK/Aozora/PR Times etc.). Trim to 3-5 sentences. Keep source title + URL + retrieved date.
-   Fallback: other URL → other category → LLM-generated flagged `synthetic-fallback: true` (last resort).
+2. Roll local source with tool: `python tools/pick_local.py pick --kind any` (secrets RNG, auto-avoids last-10 `source_id`). Never hand-pick or LLM-pick. Record returned `kind` + `file` + `line_index` + `source_id`.
+3. Use local text only — NO live fetch. If `kind=tiny`, use whole story as snippet. If `kind=aozora`, use returned `snippet` (3-5 sentences, tool-picked). Keep source `source_id` + file + retrieved date. No fallback to live URLs; `sources.json` is legacy/unused.
 4. Generate readings: `python tools/reading.py --text "snippet"` → furigana segments + romaji tokens. LLM fixes Kansai/slang, marks low-conf `[?]`.
 5. Build `lessons/lesson-YYYY-MM-DD-N.html` from `template.html`: snippet ruby + romaji dots + quiz (4 MCQ max: 3 gist + 1 vocab, NO try-it/writing; shuffle every MCQ via `randomize.py shuffle --correct 0`; each Q has clickable options with hint/reinforcement + per-item Romaji/English toggles) + trivia (English) + difficulty notes ([N3]/[N2+] tags, English) + dialect notes (English) + FINISH (auto data + comments box only, no sentence box).
 6. Serve: `python tools/server.py` → give user `http://localhost:8000/lessons/lesson-....html`. Page POSTs to `/api/save` → writes `memory/lesson-...md` + patches `global.md`. Show `saved ✓`.
-7. Never filter typos/slang/memes/profanity. Short quotes only + attribution. Public data only.
-8. Use jina_read and jina_search for retrieving the source content - avoid curl, agent_browser, or other workarounds. Create your own search/read queries.
+7. Never filter typos/slang/memes/profanity. Short quotes only + attribution (`source_id` file:line). Local corpus only (Aozora public domain + tinystories); no live fetch.
 
 ## Memory format
-- `memory/lesson-YYYY-MM-DD-N.md`: frontmatter (date, source, url, hat, score, missed, peeks, furigana, seconds) + comments + weak+. No sentence field (writing removed 2026-09-21).
-- `memory/global.md`: cumulative weak-top-5 / strong / N3 counts (rough, steering only) / last-10 sources.
+- `memory/lesson-YYYY-MM-DD-N.md`: frontmatter (date, source_id, file, line_index, kind, score, missed, peeks, furigana, seconds) + comments + weak+. No sentence field (writing removed 2026-09-21).
+- `memory/global.md`: cumulative weak-top-5 / strong / N3 counts (rough, steering only) / last-10 `source_id`s.
 
 ## Language + furigana rules (fixed 2026-09-21)
 - Japanese WITH furigana (ruby, global ON/OFF applies to whole page): title (`{{TITLE_RUBY}}`), snippet (`{{SNIPPET_RUBY}}`), quiz questions + options (`{{QUIZ_HTML}}` — every kanji gets `<ruby>Kanji<rt>(reading)</rt></ruby>` with readings IN PARENS so boundaries are visible).
@@ -37,7 +35,6 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 - Track: tap on snippet word logs peek; toggle logs furigana/romaji state; timer logs seconds.
 
 ## Randomness (mandatory — never let the LLM roll)
-- All source picks and MCQ shuffles MUST use `tools/randomize.py` (OS entropy via `secrets`). LLM guessing, "pick one", or hardcoding first entry is banned.
-- Source: `python tools/randomize.py pick-source` (weighted 60/20/20, auto-avoids last-10 from `memory/`). `--seed` only for repro/debugging. `--hat` only to retry a failed fetch, never to bias.
+- All source picks and MCQ shuffles MUST use python tooling (OS entropy via `secrets`). LLM guessing, "pick one", or hardcoding first entry is banned.
+- Source: `python tools/pick_local.py pick --kind any` (50/50 tiny/aozora at dataset level, uniform line within; auto-avoids last-10 `source_id` from `memory/`). `--seed` only for repro/debugging.
 - MCQ: build options with correct at index 0, then `python tools/randomize.py shuffle --options '<json>' --correct 0` and use returned `shuffled` + `new_correct`. Re-shuffle per lesson.
-- Hat-only roll (no pick): `python tools/randomize.py hat`.
