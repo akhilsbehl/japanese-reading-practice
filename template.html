@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{{TITLE}} — Real Japanese Lesson</title>
+<title>{{TITLE_PLAIN}} — Real Japanese Lesson</title>
 <style>
 body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:2}
 ruby rt{font-size:.65em;color:#555}
@@ -19,8 +19,9 @@ textarea,input[type=text]{width:100%;padding:.5rem;font-size:1rem}
 </style>
 </head>
 <body>
-<h1>{{TITLE}}</h1>
+<h1>{{TITLE_RUBY}}</h1>
 <p class="small">Source: <a href="{{URL}}">{{SOURCE}}</a> · {{DATE}} · hat: {{HAT}} {{SYNTHETIC}}</p>
+<!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby> furigana (toggle covers all). TRIVIA/TRIVIA_MORE/DIALECT = English only. -->
 
 <h2>1. Snippet</h2>
 <button id="furiganaBtn">FURIGANA: ON</button>

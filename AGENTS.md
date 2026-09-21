@@ -21,8 +21,15 @@ Consumer lock: small HTML lessons (~10 min) from real public Japanese. Tokyo-hea
 - `memory/lesson-YYYY-MM-DD-N.md`: frontmatter (date, source, url, hat, score, missed, peeks, furigana, seconds) + sentence + comments + weak+.
 - `memory/global.md`: cumulative weak-top-5 / strong / N3 counts (rough, steering only) / last-10 sources.
 
+## Language + furigana rules (fixed 2026-09-21)
+- Japanese WITH furigana (ruby, global ON/OFF applies to whole page): title (`{{TITLE_RUBY}}`), snippet (`{{SNIPPET_RUBY}}`), quiz questions + options + Japanese answer terms (`{{QUIZ_HTML}}` — every kanji gets `<ruby>`).
+- English ONLY (no furigana, never Japanese exercise text): trivia (`{{TRIVIA}}` + `{{TRIVIA_MORE}}`), dialect notes (`{{DIALECT}}` — explain in English, quote Japanese terms with ruby only as cited forms), section UI/labels/buttons (keep English).
+- Difficulty notes: English explanations; Japanese terms cited with ruby.
+- `tools/reading.py` must run for title, snippet, AND each quiz Japanese string before building HTML. No bare kanji in exercise zones.
+
 ## Template contract
-- Furigana: `<ruby>漢字<rt>かんじ</rt></ruby>`, global toggle hides `rt`.
+- Title: `<h1>{{TITLE_RUBY}}</h1>` (ruby required). Keep `<title>` plain-text fallback.
+- Furigana: `<ruby>漢字<rt>かんじ</rt></ruby>`, global toggle hides ALL `rt` on page (title+snippet+quiz).
 - Romaji: token spans `data-r="watashi"`, hidden as `▪` until tap; SHOW ALL/HIDE ALL.
 - Quiz: each Q has [SHOW ANSWER]; try-it is free text; FINISH POSTs JSON `{lesson, score, missed[], sentence, comments, peeks[], furigana, seconds}`.
 - Track: click on romaji token logs peek; toggle logs furigana state; timer logs seconds.

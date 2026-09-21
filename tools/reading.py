@@ -1,4 +1,6 @@
 """reading.py — furigana + romaji base pass.
+Run for TITLE, SNIPPET, and EVERY quiz Japanese string (questions, options, answer terms).
+Exercise zones must never ship bare kanji; trivia/dialect stay English and skip this tool.
 Tries fugashi (mecab) if installed; else naive fallback flagged [?].
 Agent (LLM) fixes Kansai/slang and confirms. Output JSON for template fill.
 Usage: python tools/reading.py --text "私は香川が好きです" [--json]
