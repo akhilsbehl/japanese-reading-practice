@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ホンマと本間 — 関西弁の知恵袋 — Real Japanese Lesson</title>
+<style>
+:root{--ink:#0f172a;--mut:#64748b;--bg:#f1f5f9;--card:#ffffff;--line:#e2e8f0;--acc:#0e7490;--acc-soft:#ecfeff;--amber:#92400e;--amber-bg:#fef3c7;--green:#166534;--green-bg:#dcfce7;--red:#991b1b;--red-bg:#fee2e2}
+*{box-sizing:border-box}
+body{font-family:system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;max-width:780px;margin:0 auto;padding:24px 18px 64px;line-height:2;color:var(--ink);background:var(--bg)}
+h1{font-size:1.9rem;line-height:1.5;margin:.4em 0}
+h2{font-size:1.05rem;letter-spacing:.02em;margin:2rem 0 .8rem;display:flex;align-items:center;gap:.6rem;color:var(--ink)}
+h2::before{content:"";width:10px;height:22px;border-radius:6px;background:var(--acc);display:inline-block}
+ruby rt{font-size:.62em;color:var(--mut)}
+body.no-furigana ruby rt{display:none}
+/* inline word units: Japanese on top (furigana above), romaji below, hidden by default */
+#snippet p{font-size:1.25rem;line-height:2.2;margin:.4em 0}
+.w{display:inline-block;vertical-align:top;text-align:center;margin:.05em .22em .35em;white-space:nowrap;cursor:pointer;border-radius:8px;padding:0 .08em}
+.w:hover{background:#f8fafc}
+.w .ro{display:none;font-size:.68rem;line-height:1.4;color:var(--acc);font-family:ui-monospace,Menlo,Consolas,monospace;text-align:center}
+body.romaji-on .w .ro{display:block}
+.w.show-ro .ro{display:block}
+.romaji-legend{color:var(--mut);font-size:.8rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:0 1px 2px rgba(30,20,0,.05)}
+.small{color:var(--mut);font-size:.85em}
+button{padding:.4rem .9rem;border-radius:999px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:.9rem;color:var(--ink)}
+button:hover{border-color:var(--acc);color:var(--acc)}
+button.primary{background:#0f172a;border-color:#0f172a;color:#fff;font-weight:600}
+button.primary:hover{filter:brightness(1.05);color:#fff}
+#snippet p{font-size:1.25rem;line-height:2.4;margin:.4em 0}
+.romaji span[data-r]{cursor:pointer;background:var(--ind-soft);border:1px solid #c7d2fe;border-radius:8px;padding:0 .45em;margin:0 .12em}
+.romaji span[data-r].peeked{background:#dbeafe}
+/* quiz cards */
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;margin:14px 0;box-shadow:0 2px 8px rgba(60,40,0,.06)}
+.q-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem}
+.q-num{background:#0f172a;color:#fff;font-weight:700;font-size:.8rem;border-radius:999px;padding:.1rem .6rem}
+.q-pick{color:var(--mut);font-size:.8rem;border:1px dashed #c9c0aa;border-radius:999px;padding:.05rem .6rem}
+.q-text{font-size:1.15rem;margin:.3em 0}
+.opt{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;margin:.45rem 0;background:#fff;border:1.5px solid #ddd6c4;border-radius:12px;padding:.55rem .7rem;font-size:1.05rem;line-height:2}
+.opt::before{content:"";flex:0 0 auto;width:18px;height:18px;border-radius:50%;border:2px solid #b8ad90;margin-top:.55em}
+.opt:hover{border-color:var(--ind);background:#fbf9ff}
+.opt.picked-wrong{border-color:#f87171;background:var(--red-bg)}
+.opt.picked-wrong::before{border-color:#ef4444;background:#ef4444;box-shadow:inset 0 0 0 3px #fff}
+.opt.solved{border-color:#86efac;background:var(--green-bg)}
+.opt.solved::before{border-color:#22c55e;background:#22c55e;box-shadow:inset 0 0 0 3px #fff}
+.opt:disabled{opacity:1;cursor:default}
+.feedback{display:none;border-radius:12px;padding:.6rem .8rem;margin-top:.6rem;font-size:.95rem;line-height:1.8}
+.feedback.show{display:block}
+.feedback.hint{background:var(--amber-bg);border:1px solid #fcd34d;color:var(--amber)}
+.feedback.praise{background:var(--green-bg);border:1px solid #86efac;color:var(--green)}
+.mini{font-size:.75em;margin-left:.4rem;padding:.2rem .6rem}
+.r-text,.e-text{display:none;background:#f8fafc;border:1px dashed #cbd5e1;padding:.3rem .6rem;border-radius:8px;margin:.25rem 0;font-size:.9rem;line-height:1.9}
+.r-text.show,.e-text.show{display:block}
+#saved{color:var(--green);font-weight:bold}
+textarea{width:100%;padding:.6rem;font-size:1rem;border-radius:12px;border:1px solid var(--line)}
+details.card summary{cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<h1>ホンマと<ruby>本間<rt>(ほんま)</rt></ruby> — <ruby>関西弁<rt>(かんさいべん)</rt></ruby>の<ruby>知恵袋<rt>(ちえぶくろ)</rt></ruby></h1>
+<p class="small">Source: <a href="https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1429260609">Yahoo!知恵袋 (forum, Kansai-ben thread)</a> · 2026-09-21 · hat: kansai_forum </p>
+<!-- RULE: TITLE_RUBY + SNIPPET_RUBY + QUIZ_HTML = Japanese with <ruby>Kanji<rt>(reading)</rt></ruby>. TRIVIA/DIALECT/feedback = English only. Wrong pick NEVER reveals correct; retry allowed. -->
+
+<h2>Read — tap a word for its romaji</h2>
+<div class="card">
+<button id="furiganaBtn">FURIGANA: ON</button>
+<button id="romajiBtn">ROMAJI: OFF</button>
+<span class="romaji-legend">romaji hidden by default</span>
+<div id="snippet"><p><span class="w" data-jp="<ruby>関西人<rt>(かんさいじん)</rt></ruby>" data-ro="kansaijin"><ruby>関西人<rt>(かんさいじん)</rt></ruby><span class="ro">kansaijin</span></span> <span class="w" data-jp="は" data-ro="wa">は<span class="ro">wa</span></span> <span class="w" data-jp="「<ruby>本当<rt>(ほんとう)</rt></ruby>」" data-ro="hontou">「<ruby>本当<rt>(ほんとう)</rt></ruby>」<span class="ro">hontou</span></span> <span class="w" data-jp="という" data-ro="toiu">という<span class="ro">toiu</span></span> <span class="w" data-jp="<ruby>言葉<rt>(ことば)</rt></ruby>" data-ro="kotoba"><ruby>言葉<rt>(ことば)</rt></ruby><span class="ro">kotoba</span></span> <span class="w" data-jp="を" data-ro="wo">を<span class="ro">wo</span></span> <span class="w" data-jp="「ホンマ」" data-ro="honma">「ホンマ」<span class="ro">honma</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>言<rt>(い)</rt></ruby>います" data-ro="iimasu"><ruby>言<rt>(い)</rt></ruby>います<span class="ro">iimasu</span></span> <span class="w" data-jp="が" data-ro="ga">が<span class="ro">ga</span></span>、</p>
+<p><span class="w" data-jp="この" data-ro="kono">この<span class="ro">kono</span></span> <span class="w" data-jp="「ホンマ」" data-ro="honma">「ホンマ」<span class="ro">honma</span></span> <span class="w" data-jp="を" data-ro="wo">を<span class="ro">wo</span></span> <span class="w" data-jp="「<ruby>本間<rt>(ほんま)</rt></ruby>」" data-ro="honma">「<ruby>本間<rt>(ほんま)</rt></ruby>」<span class="ro">honma</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>漢字変換<rt>(かんじへんかん)</rt></ruby>" data-ro="kanjihenkan"><ruby>漢字変換<rt>(かんじへんかん)</rt></ruby><span class="ro">kanjihenkan</span></span> <span class="w" data-jp="して" data-ro="shite">して<span class="ro">shite</span></span> <span class="w" data-jp="<ruby>来<rt>(く)</rt></ruby>る" data-ro="kuru"><ruby>来<rt>(く)</rt></ruby>る<span class="ro">kuru</span></span> <span class="w" data-jp="<ruby>人<rt>(ひと)</rt></ruby>" data-ro="hito"><ruby>人<rt>(ひと)</rt></ruby><span class="ro">hito</span></span> <span class="w" data-jp="が" data-ro="ga">が<span class="ro">ga</span></span> <span class="w" data-jp="います" data-ro="imasu">います<span class="ro">imasu</span></span>。</p>
+<p><span class="w" data-jp="<ruby>祭<rt>(まつ)</rt></ruby>り" data-ro="matsuri"><ruby>祭<rt>(まつ)</rt></ruby>り<span class="ro">matsuri</span></span> <span class="w" data-jp="の" data-ro="no">の<span class="ro">no</span></span> <span class="w" data-jp="<ruby>垂<rt>(た)</rt></ruby>れ<ruby>幕<rt>(まく)</rt></ruby>" data-ro="taremaku"><ruby>垂<rt>(た)</rt></ruby>れ<ruby>幕<rt>(まく)</rt></ruby><span class="ro">taremaku</span></span> <span class="w" data-jp="に" data-ro="ni">に<span class="ro">ni</span></span> <span class="w" data-jp="「<ruby>本間<rt>(ほんま)</rt></ruby>に」" data-ro="honma-ni">「<ruby>本間<rt>(ほんま)</rt></ruby>に」<span class="ro">honma-ni</span></span> <span class="w" data-jp="<ruby>一杯<rt>(いっぱい)</rt></ruby>" data-ro="ippai"><ruby>一杯<rt>(いっぱい)</rt></ruby><span class="ro">ippai</span></span> <span class="w" data-jp="<ruby>世話<rt>(せわ)</rt></ruby>" data-ro="sewa"><ruby>世話<rt>(せわ)</rt></ruby><span class="ro">sewa</span></span> <span class="w" data-jp="かけた" data-ro="kaketa">かけた<span class="ro">kaketa</span></span> <span class="w" data-jp="けど」" data-ro="kedo">けど」<span class="ro">kedo</span></span> <span class="w" data-jp="と" data-ro="to">と<span class="ro">to</span></span> <span class="w" data-jp="<ruby>書<rt>(か)</rt></ruby>かれていました" data-ro="kakareteimashita"><ruby>書<rt>(か)</rt></ruby>かれていました<span class="ro">kakareteimashita</span></span>。</p>
+<p><span class="w" data-jp="<ruby>明<rt>(あき)</rt></ruby>らかに" data-ro="akirakani"><ruby>明<rt>(あき)</rt></ruby>らかに<span class="ro">akirakani</span></span> <span class="w" data-jp="<ruby>間違<rt>(まちが)</rt></ruby>い" data-ro="machigai"><ruby>間違<rt>(まちが)</rt></ruby>い<span class="ro">machigai</span></span> <span class="w" data-jp="だと" data-ro="dato">だと<span class="ro">dato</span></span> <span class="w" data-jp="<ruby>思<rt>(おも)</rt></ruby>う" data-ro="omou"><ruby>思<rt>(おも)</rt></ruby>う<span class="ro">omou</span></span> <span class="w" data-jp="のですが" data-ro="nodesuga">のですが<span class="ro">nodesuga</span></span> <span class="w" data-jp="どちら" data-ro="dochira">どちら<span class="ro">dochira</span></span> <span class="w" data-jp="が" data-ro="ga">が<span class="ro">ga</span></span> <span class="w" data-jp="<ruby>正<rt>(ただ)</rt></ruby>しいのでしょうか" data-ro="tadashiinodeshouka"><ruby>正<rt>(ただ)</rt></ruby>しいのでしょうか<span class="ro">tadashiinodeshouka</span></span></p></div>
+</div>
+
+<h2>Quiz — tap one answer per card</h2>
+<div id="quiz"><div class="quiz" data-correct="0" data-hint="Sentence 1: ホンマ = 本当 (the real thing). The length unit is a different word." data-praise="Right. ホンマ = really / truly in Kansai.">
+<div class="q-head"><span class="q-num">Q1</span><span class="q-pick">tap one</span></div>
+<p class="q-text">「ホンマ」はどういう<ruby>意味<rt>(いみ)</rt></ruby>？<button class="mini" data-toggle="l2q1r">Romaji</button><button class="mini" data-toggle="l2q1e">English</button></p>
+<div class="r-text" id="l2q1r">Honma wa dou iu imi?</div>
+<div class="e-text" id="l2q1e">What does "honma" mean?</div>
+<button class="opt">ホンマは<ruby>本当<rt>(ほんとう)</rt></ruby>のこと<button class="mini" data-toggle="l2q1o0r">Romaji</button><button class="mini" data-toggle="l2q1o0e">English</button><div class="r-text" id="l2q1o0r">Honma wa hontou no koto</div><div class="e-text" id="l2q1o0e">Honma means "really / the truth"</div></button>
+<button class="opt">ホンマは<ruby>祭<rt>(まつ)</rt></ruby>りの<ruby>名前<rt>(なまえ)</rt></ruby><button class="mini" data-toggle="l2q1o1r">Romaji</button><button class="mini" data-toggle="l2q1o1e">English</button><div class="r-text" id="l2q1o1r">Honma wa matsuri no namae</div><div class="e-text" id="l2q1o1e">Honma is a festival name</div></button>
+<button class="opt">ホンマは<ruby>長<rt>(なが)</rt></ruby>さの<ruby>単位<rt>(たんい)</rt></ruby><button class="mini" data-toggle="l2q1o2r">Romaji</button><button class="mini" data-toggle="l2q1o2e">English</button><div class="r-text" id="l2q1o2r">Honma wa nagasa no tan'i</div><div class="e-text" id="l2q1o2e">Honma is a length unit</div></button>
+<div class="feedback"></div>
+</div>
+
+<div class="quiz" data-correct="2" data-hint="Answers agree: 本間 = tatami size / music term, not the Kansai word. Writing ほんま as 本間 is a conversion mistake." data-praise="Correct. 本間 as ほんま is wrong — a common phone-conversion mistake.">
+<div class="q-head"><span class="q-num">Q2</span><span class="q-pick">tap one</span></div>
+<p class="q-text">「<ruby>本間<rt>(ほんま)</rt></ruby>」と<ruby>書<rt>(か)</rt></ruby>くのは？<button class="mini" data-toggle="l2q2r">Romaji</button><button class="mini" data-toggle="l2q2e">English</button></p>
+<div class="r-text" id="l2q2r">Honma to kaku no wa?</div>
+<div class="e-text" id="l2q2e">About writing it as 本間?</div>
+<button class="opt"><ruby>本間<rt>(ほんま)</rt></ruby>は<ruby>京阪語<rt>(けいはんご)</rt></ruby><button class="mini" data-toggle="l2q2o0r">Romaji</button><button class="mini" data-toggle="l2q2o0e">English</button><div class="r-text" id="l2q2o0r">Honma wa keihan-go</div><div class="e-text" id="l2q2o0e">Honma written 本間 is Keihan dialect</div></button>
+<button class="opt"><ruby>本間<rt>(ほんま)</rt></ruby>が<ruby>正<rt>(ただ)</rt></ruby>しい<ruby>漢字<rt>(かんじ)</rt></ruby><button class="mini" data-toggle="l2q2o1r">Romaji</button><button class="mini" data-toggle="l2q2o1e">English</button><div class="r-text" id="l2q2o1r">Honma ga tadashii kanji</div><div class="e-text" id="l2q2o1e">本間 is the correct kanji</div></button>
+<button class="opt"><ruby>本間<rt>(ほんま)</rt></ruby>と<ruby>書<rt>(か)</rt></ruby>くのは<ruby>間違<rt>(まちが)</rt></ruby>い<button class="mini" data-toggle="l2q2o2r">Romaji</button><button class="mini" data-toggle="l2q2o2e">English</button><div class="r-text" id="l2q2o2r">Honma to kaku no wa machigai</div><div class="e-text" id="l2q2o2e">Writing it as 本間 is a mistake</div></button>
+<div class="feedback"></div>
+</div>
+
+<div class="quiz" data-correct="0" data-hint="Sentence 3: 祭りの垂れ幕に…と書かれていました — it was written big on a festival banner." data-praise="Yes. Someone saw it big and bold on a festival curtain and doubted themselves.">
+<div class="q-head"><span class="q-num">Q3</span><span class="q-pick">tap one</span></div>
+<p class="q-text">「<ruby>本間<rt>(ほんま)</rt></ruby>に」の<ruby>例<rt>(れい)</rt></ruby>はどこで<ruby>見<rt>(み)</rt></ruby>た？<button class="mini" data-toggle="l2q3r">Romaji</button><button class="mini" data-toggle="l2q3e">English</button></p>
+<div class="r-text" id="l2q3r">Honma ni no rei wa doko de mita?</div>
+<div class="e-text" id="l2q3e">Where was the 本間に example seen?</div>
+<button class="opt"><ruby>垂<rt>(た)</rt></ruby>れ<ruby>幕<rt>(まく)</rt></ruby>に<ruby>書<rt>(か)</rt></ruby>かれていた<button class="mini" data-toggle="l2q3o0r">Romaji</button><button class="mini" data-toggle="l2q3o0e">English</button><div class="r-text" id="l2q3o0r">Taremaku ni kakareteita</div><div class="e-text" id="l2q3o0e">Written on a festival banner</div></button>
+<button class="opt"><ruby>教科書<rt>(きょうかしょ)</rt></ruby>に<ruby>載<rt>(の)</rt></ruby>っていた<button class="mini" data-toggle="l2q3o1r">Romaji</button><button class="mini" data-toggle="l2q3o1e">English</button><div class="r-text" id="l2q3o1r">Kyoukasho ni notteita</div><div class="e-text" id="l2q3o1e">In a textbook</div></button>
+<button class="opt"><ruby>辞書<rt>(じしょ)</rt></ruby>の<ruby>定義<rt>(ていぎ)</rt></ruby>だった<button class="mini" data-toggle="l2q3o2r">Romaji</button><button class="mini" data-toggle="l2q3o2e">English</button><div class="r-text" id="l2q3o2r">Jisho no teigi datta</div><div class="e-text" id="l2q3o2e">It was a dictionary definition</div></button>
+<div class="feedback"></div>
+</div>
+
+<div class="quiz" data-correct="1" data-hint="Best answer says ほんま = 本真 (まこと・ほんとう, listed in 広辞苑 as 京阪語). 本間 is the tatami unit." data-praise="Exactly. 本真 (truth) is the kanji behind ほんま; 本間 is the false friend.">
+<div class="q-head"><span class="q-num">Q4</span><span class="q-pick">tap one</span></div>
+<p class="q-text">ベストアンサー：ほんまの<ruby>漢字<rt>(かんじ)</rt></ruby>は？<button class="mini" data-toggle="l2q4r">Romaji</button><button class="mini" data-toggle="l2q4e">English</button></p>
+<div class="r-text" id="l2q4r">Besuto-ansaa: honma no kanji wa?</div>
+<div class="e-text" id="l2q4e">Best answer: the kanji for honma?</div>
+<button class="opt"><ruby>本真<rt>(ほんま)</rt></ruby>=<ruby>祭<rt>(まつ)</rt></ruby>りの<ruby>掛<rt>(か)</rt></ruby>け<ruby>声<rt>(ごえ)</rt></ruby><button class="mini" data-toggle="l2q4o0r">Romaji</button><button class="mini" data-toggle="l2q4o0e">English</button><div class="r-text" id="l2q4o0r">Honma = matsuri no kakegoe</div><div class="e-text" id="l2q4o0e">Festival chant</div></button>
+<button class="opt"><ruby>本真<rt>(ほんま)</rt></ruby>=まこと・ほんとう<button class="mini" data-toggle="l2q4o1r">Romaji</button><button class="mini" data-toggle="l2q4o1e">English</button><div class="r-text" id="l2q4o1r">Honma = makoto, hontou</div><div class="e-text" id="l2q4o1e">Truth / really</div></button>
+<button class="opt"><ruby>本真<rt>(ほんま)</rt></ruby>=<ruby>畳<rt>(たたみ)</rt></ruby>のサイズ<button class="mini" data-toggle="l2q4o2r">Romaji</button><button class="mini" data-toggle="l2q4o2e">English</button><div class="r-text" id="l2q4o2r">Honma = tatami no saizu</div><div class="e-text" id="l2q4o2e">Tatami size</div></button>
+<div class="feedback"></div>
+</div>
+</div>
+
+<h2>Trivia</h2>
+<div class="card">This is a real 2009 Chiebukuro thread about a festival banner in southern Osaka. Someone saw 本間に written huge and bold and started doubting themselves. Phones suggest 本間 because it is a common noun (tatami size / music term), so the typo spreads.
+<details><summary>TELL ME MORE</summary><div>The accepted answer cites the dictionary: ほんま = 本真 (truth), marked as Keihan (Kyoto-Osaka) language and used across western Japan. Related threads debate 本真 vs no-kanji vs 本間, plus そおゆう vs そういう spelling. Great window into how Kansai people actually argue about their own words online.</div></details>
+</div>
+
+<h2>Difficulty notes</h2>
+<div class="card"><ul><li>ホンマ [N4 listening, N3 reading] — Kansai for 本当. Usually hiragana/katakana, rarely kanji.</li><li><ruby>本真<rt>(ほんま)</rt></ruby> [N2+ word] — the dictionary kanji (truth). <ruby>本間<rt>(ほんま)</rt></ruby> [N3 kanji, wrong word] — tatami-size unit. Classic false friend.</li><li>〜して来る人がいます [N4] — people who come doing X (habitual). 〜と思うのですが [N4] — soft question closer.</li><li>Raw forum lines kept: casual gaps. No cleanup.</li></ul></div>
+
+<h2>Dialect notes</h2>
+<div class="card">Standard says 本当 (hontou); Kansai says ほんま, written in hiragana. Best answer notes Kyoto/Osaka use hiragana by default. Your Kagawa home will say ほんま often, plus 〜しよる for ongoing action and そおゆう-style sound spelling in chats. For Tokyo life, use 本当 / 本当に in writing; recognize ほんま instantly in speech. Never write business mail as 本間に.</div>
+
+<h2>Finish</h2>
+<div class="card">
+<label>Comments (how did it go?): <textarea id="comments" rows="3"></textarea></label><br><br>
+<button id="finish" class="primary">FINISH — save</button> <span id="saved"></span>
+</div>
+<!-- NO try-it/sentence box. FINISH posts picked{} + attempts + auto signals. -->
+
+<script>
+const t0 = Date.now();
+let peeks = [];
+let furiganaState = 'ON';
+const btn = document.getElementById('furiganaBtn');
+btn.onclick = () => {
+  document.body.classList.toggle('no-furigana');
+  furiganaState = document.body.classList.contains('no-furigana') ? 'OFF' : 'ON';
+  btn.textContent = 'FURIGANA: ' + furiganaState;
+};
+<!-- inline romaji lives under each word in #snippet; quiz toggles handled per-card below -->
+document.querySelectorAll('#snippet .w').forEach(w => {
+  w.onclick = () => {
+    w.classList.toggle('show-ro');
+    peeks.push(w.dataset.jp || w.dataset.ro || 'word');
+  };
+});
+let romajiOn = false;
+const rbtn = document.getElementById('romajiBtn');
+if (rbtn) rbtn.onclick = () => {
+  romajiOn = !romajiOn;
+  document.body.classList.toggle('romaji-on', romajiOn);
+  rbtn.textContent = 'ROMAJI: ' + (romajiOn ? 'ON' : 'OFF');
+};
+document.querySelectorAll('.quiz').forEach((q, qi) => {
+  const correct = parseInt(q.dataset.correct, 10);
+  const fb = q.querySelector('.feedback');
+  const hint = q.dataset.hint || 'Not that one — re-read the snippet and try another.';
+  const praise = q.dataset.praise || 'Correct.';
+  q.dataset.attempts = '0';
+  q.querySelectorAll('[data-toggle]').forEach(b => {
+    b.onclick = (e) => { e.stopPropagation(); const t = q.querySelector('#' + b.dataset.toggle); if (t) t.classList.toggle('show'); };
+  });
+  q.querySelectorAll('.opt').forEach((b, i) => {
+    b.onclick = () => {
+      if (q.dataset.solved === '1') return;
+      if (i === correct) {
+        const n = parseInt(q.dataset.attempts, 10);
+        b.classList.add('solved');
+        q.querySelectorAll('.opt').forEach(x => { if (x !== b) x.disabled = true; });
+        fb.className = 'feedback show praise';
+        fb.textContent = (n > 0 ? '✓ Got it after ' + (n+1) + ' tries. ' : '✓ ') + praise;
+        q.dataset.solved = '1';
+        q.dataset.picked = String(i);
+      } else {
+        q.dataset.attempts = String(parseInt(q.dataset.attempts, 10) + 1);
+        b.classList.add('picked-wrong');
+        b.disabled = true;
+        fb.className = 'feedback show hint';
+        fb.textContent = '✗ Not that one (' + q.dataset.attempts + ' miss' + (q.dataset.attempts === '1' ? '' : 'es') + '). Hint: ' + hint;
+        q.dataset.picked = String(i);
+      }
+    };
+  });
+});
+document.getElementById('finish').onclick = async () => {
+  const picked = {}, attempts = {};
+  let ok = 0, total = 0;
+  document.querySelectorAll('.quiz').forEach((q, i) => {
+    total++;
+    if (q.dataset.picked !== undefined) picked['Q'+(i+1)] = q.dataset.picked;
+    attempts['Q'+(i+1)] = q.dataset.attempts || '0';
+    if (q.dataset.solved === '1') ok++;
+  });
+  const body = {
+    lesson: '2026-09-21-2',
+    picked, attempts, score: ok + '/' + total,
+    comments: document.getElementById('comments').value,
+    peeks, furigana: furiganaState,
+    seconds: Math.round((Date.now()-t0)/1000)
+  };
+  const r = await fetch('/api/save', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+  document.getElementById('saved').textContent = r.ok ? 'saved ✓' : 'save failed';
+};
+</script>
+</body>
+</html>
